@@ -4,7 +4,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: {
-    app: './src/game.ts',
+    app: './src/index.ts',
   },
   plugins: [
     new HtmlWebpackPlugin({

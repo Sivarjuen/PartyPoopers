@@ -4,7 +4,6 @@ const common = require('./common.js');
  module.exports = merge(common, {
    mode: 'development',
    devtool: 'inline-source-map',
-   entry: './src/game.ts',
    devServer: {
      contentBase: './public',
      host: '0.0.0.0'
