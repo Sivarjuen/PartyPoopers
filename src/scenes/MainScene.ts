@@ -1,6 +1,7 @@
 import Align from "../util/align";
 import { BaseScene } from "./BaseScene";
 import { Button } from '../components/button';
+import { io } from "socket.io-client";
 
 export default class MainScene extends BaseScene {
 
@@ -40,5 +41,37 @@ export default class MainScene extends BaseScene {
             yoyo: true,
             repeat: -1 
         });
+
+        const socket = io("ws://localhost:3000");
+
+        var connectionAttempts = 3
+        socket.on("connect_error", () => {
+            console.log("Failed to connect to server. Trying again...")
+            connectionAttempts -= 1
+            if (connectionAttempts > 0) {
+                setTimeout(() => {
+                socket.connect();
+                }, 500);
+            } else {
+                console.log("Failed to connect after 3 attempts.")
+                socket.close();
+            }
+          });
+
+        socket.on("hello", (arg) => {
+            console.log(arg);
+        });
+
+        socket.on("disconnect", (reason) => {
+            if(reason === "io server disconnect") {
+                console.log("Disconnected by the server.")
+                socket.close();
+            } else if(reason === "transport close") {
+                console.log("Server has shut down. Closing connection...")
+                socket.close();
+            } else {
+                console.log("Lost connection to the server. Trying again...")
+            }
+        })
     }
 }

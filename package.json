@@ -5,7 +5,8 @@
     "main": "src/game.ts",
     "scripts": {
         "build": "webpack --config webpack/prod.js",
-        "start": "webpack serve --config webpack/dev.js"
+        "start": "webpack serve --config webpack/dev.js",
+        "server": "nodemon server/server.js"
     },
     "author": "Richard Davey <rich@photonstorm.com> (http://www.photonstorm.com)",
     "license": "MIT",
@@ -23,5 +24,11 @@
         "webpack-cli": "^4.6.0",
         "webpack-dev-server": "^3.11.2",
         "webpack-merge": "^5.7.3"
+    },
+    "dependencies": {
+        "express": "^4.17.3",
+        "nodemon": "^2.0.15",
+        "socket.io": "^4.4.1",
+        "socket.io-client": "^4.4.1"
     }
 }
