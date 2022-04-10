@@ -13,6 +13,7 @@ This HTML5 game is created withusing Phaser 3.50 with [TypeScript 4](https://www
 | `npm install` | Install project dependencies |
 | `npm start` | Build project and open web server running project, watching for changes |
 | `npm run build` | Builds code bundle with production settings (minification, no source maps, etc..) |
+| `npm run server` | Run the server, watches for changes to the server code |
 
 ## Writing Code
 
