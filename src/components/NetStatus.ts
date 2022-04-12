@@ -5,15 +5,12 @@ import { AlignGrid } from "../util/alignGrid";
 
 export class NetStatus extends Phaser.GameObjects.Container implements IGameObj {
   public grid!: AlignGrid;
-  public baseScene: IBaseScene;
 
   constructor(scene: IBaseScene) {
     super(scene.getScene());
 
-    this.baseScene = scene
-    this.grid = new AlignGrid(scene, 11, 11, -1, -1, this);
-    if(this.baseScene.debug) {
-      this.grid.showNumbers();
-    }
+    const text = this.scene.add.text(0, 0, "Connected")
+    text.setOrigin(0.5)
+    this.add(text)
   }
 }

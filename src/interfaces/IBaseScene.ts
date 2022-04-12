@@ -7,9 +7,6 @@ export interface IBaseScene {
     getScene():Phaser.Scene;
     getGrid():AlignGrid;
     makeGrid(r:number,c:number);
-    ch:number;
-    cw:number;
-    cd:number;
     resetSize(w:number,h:number);
 }
 export default IBaseScene

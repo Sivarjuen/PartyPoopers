@@ -4,17 +4,12 @@ import IBaseScene from "../interfaces/IBaseScene";
 import { IGameObj } from "../interfaces/IGameObj";
 
 /*jshint esversion: 6 */
-export class AlignGrid {
+export class AlignGrid extends Phaser.GameObjects.Grid {
   private rows: number = 0;
   private cols: number = 0;
-  public cw: number = 0;
-  public ch: number = 0;
-  public cd: number = 0;
-  private scene: IBaseScene;
+  private colour: Phaser.Display.Color;
   private container: Phaser.GameObjects.Container;
   private graphics!: Phaser.GameObjects.Graphics;
-  private width: number;
-  private height: number;
   private numberArray:GameObjects.Text[]=[];
   
   constructor(
@@ -24,69 +19,61 @@ export class AlignGrid {
     width: number = -1,
     height: number = -1,
     container?: Phaser.GameObjects.Container,
+    colour: Phaser.Display.Color = Phaser.Display.Color.RandomRGB()
   ) {
+    super(scene.getScene())
+    this.setOrigin(0)
+    this.x = 0
+    this.y = 0
+
+    this.colour = colour
+
     if (height === -1) {
-      if (container) {
-        container.height
-      } else {
-        height = scene.getH();
-      }
+      this.height = container ? container.getBounds().height : scene.getH();
+    } else {
+      this.height = height
     }
     if (width === -1) {
-      if (container) {
-        container.width
-      } else {
-        width = scene.getW();
-      }
+      this.width = container ? container.getBounds().width : scene.getW();
+    } else {
+      this.width = width
     }
+
     this.rows = rows;
     this.cols = cols;
-    this.scene = scene;
 
     //cell width
-    this.cw = width / this.cols;
+    this.cellWidth = this.width / this.cols;
     //cell height
-    this.ch = height / this.rows;
+    this.cellHeight = this.height / this.rows;
 
-    //d = √(l² + w²)
-    this.cd = Math.sqrt(this.cw * this.cw + this.ch * this.ch);
+    this.height = scene.getH();
+    this.width = scene.getW();
 
-    this.height = height;
-    this.width = width;
+    console.log(this.rows)
   }
 
   show() {
-
-    this.graphics = this.scene.getScene().add.graphics();
-    this.graphics.lineStyle(2, 0xff0000, 0.5);
-
-    for (let i = 0; i < this.width; i += this.cw) {
-      this.graphics.moveTo(i, 0);
-      this.graphics.lineTo(i, this.height);
-    }
-
-    for (let i = 0; i < this.height; i += this.ch) {
-      this.graphics.moveTo(0, i);
-      this.graphics.lineTo(this.width, i);
-    }
-
-    this.graphics.strokePath();
+    this.setOutlineStyle(this.colour.color, 0.6);
   }
+
   placeAt(xx: number, yy: number, obj: IGameObj) {
     //calc position based upon the cellwidth and cellheight
-    let x2 = this.cw * xx + this.cw / 2;
-    let y2 = this.ch * yy + this.ch / 2;
+    let x2 = this.cellWidth * xx + this.cellWidth / 2;
+    let y2 = this.cellHeight * yy + this.cellHeight / 2;
 
     obj.x = x2;
     obj.y = y2;
   }
+
   placeAt2(xx: number, yy: number, obj: IGameObj) {
-    let x2 = this.cw * (xx - 1) + this.cw;
-    let y2 = this.ch * (yy - 1) + this.ch;
+    let x2 = this.cellWidth * (xx - 1) + this.cellWidth;
+    let y2 = this.cellHeight * (yy - 1) + this.cellHeight;
 
     obj.x = x2;
     obj.y = y2;
   }
+
   placeAtIndex(index: number, obj: IGameObj, useCenter = true) {
     let yy = Math.floor(index / this.cols);
     let xx = index - yy * this.cols;
@@ -96,14 +83,14 @@ export class AlignGrid {
       this.placeAt2(xx, yy, obj);
     }
   }
+
   showNumbers() {
     this.show();
     let count = 0;
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.cols; j++) {
         let numText = this.scene
-          .getScene()
-          .add.text(0, 0, count.toString(), { color: "#ff0000" });
+          .add.text(0, 0, count.toString(), { color: this.getColourString() });
         numText.setOrigin(0.5, 0.5);
         this.numberArray.push(numText);
         this.placeAtIndex(count, numText);
@@ -111,14 +98,14 @@ export class AlignGrid {
       }
     }
   }
+
   showPos() {
     this.show();
     let count = 0;
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.cols; j++) {
         let numText = this.scene
-          .getScene()
-          .add.text(0, 0, j + "\n" + i, { color: "#ff0000" });
+          .add.text(0, 0, j + "\n" + i, { color: this.getColourString() });
         numText.setOrigin(0.5, 0.5);
         this.numberArray.push(numText);
         this.placeAtIndex(count, numText);
@@ -127,20 +114,23 @@ export class AlignGrid {
       }
     }
   }
+
   findNearestIndex(xx: number, yy: number) {
-    let row = Math.floor(yy / this.ch);
-    let col = Math.floor(xx / this.cw);
+    let row = Math.floor(yy / this.cellHeight);
+    let col = Math.floor(xx / this.cellWidth);
     let index = row * this.cols + col;
     return index;
   }
+
   findNearestGridXY(xx: number, yy: number) {
-    let row = Math.floor(yy / this.ch);
-    let col = Math.floor(xx / this.cw);
+    let row = Math.floor(yy / this.cellHeight);
+    let col = Math.floor(xx / this.cellWidth);
     return {
       x: col,
       y: row,
     };
   }
+
   hide()
   {
     if (this.graphics)
@@ -150,33 +140,42 @@ export class AlignGrid {
    
     this.numberArray.forEach((t:Phaser.GameObjects.Text)=>{t.destroy()});
   }
+
   getPosByXY(xx: number, yy: number) {
     let index = this.findNearestIndex(xx, yy);
     return this.getPosByIndex(index);
   }
+
   getRealXY(xx: number, yy: number) {
-    let x1: number = xx * this.cw;
-    let y1: number = yy * this.ch;
+    let x1: number = xx * this.cellWidth;
+    let y1: number = yy * this.cellHeight;
     return new Pos(x1, y1);
   }
+
   getRealMiddleBotton(xx:number,yy:number)
   {
-    let x1: number = (xx * this.cw)+this.cw/2;
-    let y1: number = (yy + 1) * this.ch;
-    y1+=this.ch;
+    let x1: number = (xx * this.cellWidth)+this.cellWidth/2;
+    let y1: number = (yy + 1) * this.cellHeight;
+    y1+=this.cellHeight;
     return new Pos(x1, y1);
   }
+
   getRealBottom(xx: number, yy: number) {
-    let x1: number = xx * this.cw;
-    let y1: number = (yy + 1) * this.ch;
-    y1+=this.ch;
+    let x1: number = xx * this.cellWidth;
+    let y1: number = (yy + 1) * this.cellHeight;
+    y1+=this.cellHeight;
     return new Pos(x1, y1);
   }
+
   getPosByIndex(index: number) {
     let yy = Math.floor(index / this.cols);
     let xx = index - yy * this.cols;
-    let x2 = this.cw * xx + this.cw / 2;
-    let y2 = this.ch * yy + this.ch / 2;
+    let x2 = this.cellWidth * xx + this.cellWidth / 2;
+    let y2 = this.cellHeight * yy + this.cellHeight / 2;
     return new Pos(x2, y2);
+  }
+
+  getColourString() {
+    return Phaser.Display.Color.RGBToString(this.colour.red, this.colour.green, this.colour.blue)
   }
 }

@@ -14,13 +14,6 @@ export class BaseScene extends Phaser.Scene implements IBaseScene {
   
   //align grid
   public grid!: AlignGrid;
-  /**
-   * coordinates from align grid
-   */
-  public ch: number = 0;
-  public cw: number = 0;
-  public cd: number = 0;
-
 
   constructor(sceneName: string) {
     super(sceneName);
@@ -65,13 +58,9 @@ export class BaseScene extends Phaser.Scene implements IBaseScene {
    * @param c columns
    */
   makeGrid(c: number = 11, r: number = 11) {
-    this.grid = new AlignGrid(this, r, c);
-    this.ch = this.grid.ch;
-    this.cw = this.grid.cw;
-    this.cd = this.grid.cd;
+    this.grid = this.add.existing(new AlignGrid(this, r, c));
     if(this.debug) {
       this.grid.showNumbers();
-      // this.grid.showPos();
     }
   }
   /**

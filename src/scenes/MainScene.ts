@@ -19,11 +19,12 @@ export default class MainScene extends BaseScene {
         super.create()
 
         //create a grid for alignment
-        this.makeGrid(11,11);
-
+        this.makeGrid(21,21);
+        
         const logo = this.add.image(0, 0, 'logo');
         const button = this.add.existing(new Button(this, 0, 0, 'Start Game', () => console.log("Pressed")));
         const status = this.add.existing(new NetStatus(this));
+        this.add.existing(this.grid)
 
         if (this.mobile) {
             Align.scaleToGameW(logo,0.7,this);
@@ -32,9 +33,9 @@ export default class MainScene extends BaseScene {
             Align.scaleToGameW(logo,0.3,this);
             Align.scaleToGameW(button,0.2,this);
         }
-        this.grid.placeAtIndex(27,logo);
-        this.grid.placeAtIndex(71,button);
-        this.grid.placeAtIndex(80, status);
+        this.grid.placeAtIndex(94,logo);
+        this.grid.placeAtIndex(262,button);
+        this.grid.placeAtIndex(439,status);
 
         this.tweens.add({
             targets: logo,
