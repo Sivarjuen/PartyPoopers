@@ -1,9 +1,7 @@
-
-//import Phaser from "phaser";
 import { AlignGrid } from "../util/alignGrid";
 
-export interface IBaseScene
-{
+export interface IBaseScene {
+    debug:boolean;
     getW():number;
     getH():number;
     getScene():Phaser.Scene;

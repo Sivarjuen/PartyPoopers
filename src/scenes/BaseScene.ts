@@ -1,6 +1,4 @@
 import { IBaseScene } from "../interfaces/IBaseScene";
-import Align from "../util/align";
-
 import { AlignGrid } from "../util/alignGrid";
 
 /**
@@ -73,6 +71,7 @@ export class BaseScene extends Phaser.Scene implements IBaseScene {
     this.cd = this.grid.cd;
     if(this.debug) {
       this.grid.showNumbers();
+      // this.grid.showPos();
     }
   }
   /**

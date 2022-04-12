@@ -1,7 +1,8 @@
 import Align from "../util/align";
 import { BaseScene } from "./BaseScene";
-import { Button } from '../components/button';
+import { Button } from '../components/Button';
 import { io } from "socket.io-client";
+import { NetStatus } from "../components/NetStatus";
 
 export default class MainScene extends BaseScene {
 
@@ -22,7 +23,8 @@ export default class MainScene extends BaseScene {
 
         const logo = this.add.image(0, 0, 'logo');
         const button = this.add.existing(new Button(this, 0, 0, 'Start Game', () => console.log("Pressed")));
-        
+        const status = this.add.existing(new NetStatus(this));
+
         if (this.mobile) {
             Align.scaleToGameW(logo,0.7,this);
             Align.scaleToGameW(button,0.6,this);
@@ -32,6 +34,7 @@ export default class MainScene extends BaseScene {
         }
         this.grid.placeAtIndex(27,logo);
         this.grid.placeAtIndex(71,button);
+        this.grid.placeAtIndex(80, status);
 
         this.tweens.add({
             targets: logo,
@@ -46,17 +49,21 @@ export default class MainScene extends BaseScene {
 
         var connectionAttempts = 3
         socket.on("connect_error", () => {
-            console.log("Failed to connect to server. Trying again...")
+            if (connectionAttempts == 3) {
+                console.log("Failed to connect to server. Trying again...")
+            } else {
+                console.log("Trying again...")
+            }
             connectionAttempts -= 1
             if (connectionAttempts > 0) {
                 setTimeout(() => {
                 socket.connect();
-                }, 500);
+                }, 1000);
             } else {
                 console.log("Failed to connect after 3 attempts.")
                 socket.close();
             }
-          });
+        });
 
         socket.on("hello", (arg) => {
             console.log(arg);
@@ -72,6 +79,6 @@ export default class MainScene extends BaseScene {
             } else {
                 console.log("Lost connection to the server. Trying again...")
             }
-        })
+        });
     }
 }

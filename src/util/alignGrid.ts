@@ -11,10 +11,10 @@ export class AlignGrid {
   public ch: number = 0;
   public cd: number = 0;
   private scene: IBaseScene;
+  private container: Phaser.GameObjects.Container;
   private graphics!: Phaser.GameObjects.Graphics;
   private width: number;
   private height: number;
-  private rscene: Phaser.Scene;
   private numberArray:GameObjects.Text[]=[];
   
   constructor(
@@ -22,13 +22,22 @@ export class AlignGrid {
     cols: number = 11,
     rows: number = 11,
     width: number = -1,
-    height: number = -1
+    height: number = -1,
+    container?: Phaser.GameObjects.Container,
   ) {
     if (height === -1) {
-      height = scene.getH();
+      if (container) {
+        container.height
+      } else {
+        height = scene.getH();
+      }
     }
     if (width === -1) {
-      width = scene.getW();
+      if (container) {
+        container.width
+      } else {
+        width = scene.getW();
+      }
     }
     this.rows = rows;
     this.cols = cols;
@@ -44,8 +53,6 @@ export class AlignGrid {
 
     this.height = height;
     this.width = width;
-    this.rscene = this.scene.getScene();
-
   }
 
   show() {

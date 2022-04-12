@@ -1,9 +1,10 @@
+import IBaseScene from "./IBaseScene";
+
 /**
  * allows us to pass a sprite,text or image
  * as an IGameObj
  */
-export interface IGameObj
-{
+export interface IGameObj {
     visible:boolean;
     alpha:number;
     displayWidth:number;
@@ -12,4 +13,5 @@ export interface IGameObj
     scaleY:number;
     x:number;
     y:number;
+    baseScene?:IBaseScene;
 }
