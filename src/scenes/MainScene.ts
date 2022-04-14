@@ -23,19 +23,21 @@ export default class MainScene extends BaseScene {
         
         const logo = this.add.image(0, 0, 'logo');
         const button = this.add.existing(new Button(this, 0, 0, 'Start Game', () => console.log("Pressed")));
-        const status = this.add.existing(new NetStatus(this));
+        // const status = this.add.existing(new NetStatus(this, 0, 0));
         this.add.existing(this.grid)
 
         if (this.mobile) {
             Align.scaleToGameW(logo,0.7,this);
             Align.scaleToGameW(button,0.6,this);
+            // Align.scaleToGameW(status,0.1,this);
         } else {
             Align.scaleToGameW(logo,0.3,this);
             Align.scaleToGameW(button,0.2,this);
+            // Align.scaleToGameW(status,0.14,this);
         }
         this.grid.placeAtIndex(94,logo);
         this.grid.placeAtIndex(262,button);
-        this.grid.placeAtIndex(439,status);
+        // this.grid.placeAtIndex(440,status);
 
         this.tweens.add({
             targets: logo,

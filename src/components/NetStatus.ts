@@ -1,16 +1,19 @@
 import "phaser";
 import IBaseScene from "../interfaces/IBaseScene";
 import { IGameObj } from "../interfaces/IGameObj";
-import { AlignGrid } from "../util/alignGrid";
+import { Spinner } from "phaser3-rex-plugins/templates/spinner/spinner-components.js"
 
-export class NetStatus extends Phaser.GameObjects.Container implements IGameObj {
-  public grid!: AlignGrid;
+export class NetStatus extends Spinner implements IGameObj {
 
-  constructor(scene: IBaseScene) {
-    super(scene.getScene());
-
-    const text = this.scene.add.text(0, 0, "Connected")
-    text.setOrigin(0.5)
-    this.add(text)
+  constructor(scene: IBaseScene, x: number, y: number) {
+    super(scene.getScene(), {
+      x: x,
+      y: y,
+      width: 36,
+      height: 36,
+      color: 0xffffff,
+      duration: 1800,
+      start: true
+    });
   }
 }
