@@ -49,8 +49,6 @@ export class AlignGrid extends Phaser.GameObjects.Grid {
 
     this.height = scene.getH();
     this.width = scene.getW();
-
-    console.log(this.rows)
   }
 
   show() {

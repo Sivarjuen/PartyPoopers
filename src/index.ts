@@ -20,4 +20,4 @@ const game = new Phaser.Game(config);
 var mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)
 
 game.registry.set("mobile", mobile);
-game.registry.set("debug", true);
+game.registry.set("debug", false);

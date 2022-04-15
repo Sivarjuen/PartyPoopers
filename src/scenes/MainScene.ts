@@ -23,21 +23,19 @@ export default class MainScene extends BaseScene {
         
         const logo = this.add.image(0, 0, 'logo');
         const button = this.add.existing(new Button(this, 0, 0, 'Start Game', () => console.log("Pressed")));
-        // const status = this.add.existing(new NetStatus(this, 0, 0));
+        const status = this.add.existing(new NetStatus(this, 0, 0));
         this.add.existing(this.grid)
 
         if (this.mobile) {
             Align.scaleToGameW(logo,0.7,this);
             Align.scaleToGameW(button,0.6,this);
-            // Align.scaleToGameW(status,0.1,this);
         } else {
             Align.scaleToGameW(logo,0.3,this);
             Align.scaleToGameW(button,0.2,this);
-            // Align.scaleToGameW(status,0.14,this);
         }
         this.grid.placeAtIndex(94,logo);
         this.grid.placeAtIndex(262,button);
-        // this.grid.placeAtIndex(440,status);
+        this.grid.placeAtIndex(440,status);
 
         this.tweens.add({
             targets: logo,
@@ -48,9 +46,21 @@ export default class MainScene extends BaseScene {
             repeat: -1 
         });
 
+
         const socket = io("ws://localhost:3000");
 
         var connectionAttempts = 3
+        socket.on("connect", () => {
+            console.log("Connected to server.")
+            setTimeout(function(){status.connectionSuccess();}, 2000);
+            
+        })
+
+        socket.on("reconnect", () => {
+            console.log("Reconnected to server.")
+            status.connectionSuccess();
+        })
+
         socket.on("connect_error", () => {
             if (connectionAttempts == 3) {
                 console.log("Failed to connect to server. Trying again...")
@@ -65,20 +75,19 @@ export default class MainScene extends BaseScene {
             } else {
                 console.log("Failed to connect after 3 attempts.")
                 socket.close();
+                status.connectionFail();
             }
-        });
-
-        socket.on("hello", (arg) => {
-            console.log(arg);
         });
 
         socket.on("disconnect", (reason) => {
             if(reason === "io server disconnect") {
                 console.log("Disconnected by the server.")
                 socket.close();
+                status.connectionFail();
             } else if(reason === "transport close") {
                 console.log("Server has shut down. Closing connection...")
                 socket.close();
+                status.connectionFail();
             } else {
                 console.log("Lost connection to the server. Trying again...")
             }
