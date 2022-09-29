@@ -6,6 +6,7 @@ const common = require('./common.js');
    devtool: 'inline-source-map',
    devServer: {
      contentBase: './public',
-     host: '0.0.0.0'
+     host: 'localhost',
+     compress: true,
    }
  });
