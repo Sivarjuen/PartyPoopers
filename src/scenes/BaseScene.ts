@@ -8,7 +8,6 @@ export class BaseScene extends Phaser.Scene {
   public gh: number;
   public mobile: boolean;
   public debug: boolean;
-  
 
   constructor(sceneName: string) {
     super(sceneName);
@@ -18,8 +17,8 @@ export class BaseScene extends Phaser.Scene {
    * overridden in scene class
    */
   create() {
-    this.debug = this.registry.get("debug")
-    this.mobile = this.registry.get("mobile")
+    this.debug = this.registry.get("debug");
+    this.mobile = this.registry.get("mobile");
     // if(this.mobile && window.innerHeight < window.innerWidth) {
     //   this.add.text(window.innerWidth / 2, window.innerHeight / 2, "Please turn your device \nto portrait mode and \nrefresh the page")
     //     .setFontSize(40)
@@ -34,13 +33,12 @@ export class BaseScene extends Phaser.Scene {
 
   /**
    * used when resizing the canvas
-   * @param w 
-   * @param h 
+   * @param w
+   * @param h
    */
-  resetSize(w:number,h:number)
-  {
-    this.gw=w;
-    this.gh=h;
+  resetSize(w: number, h: number) {
+    this.gw = w;
+    this.gh = h;
   }
 
   /**
@@ -56,7 +54,7 @@ export class BaseScene extends Phaser.Scene {
   public getW(): number {
     return this.gw;
   }
-  
+
   /**
    * @returns the game height
    */

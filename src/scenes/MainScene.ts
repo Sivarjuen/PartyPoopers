@@ -45,7 +45,7 @@ export default class MainScene extends BaseScene {
 
     const socket = io("ws://localhost:3000");
 
-    var connectionAttempts = 3;
+    let connectionAttempts = 3;
     socket.on("connect", () => {
       console.log("Connected to server.");
       setTimeout(function () {
