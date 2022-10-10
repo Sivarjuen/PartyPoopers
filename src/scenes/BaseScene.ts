@@ -19,14 +19,6 @@ export class BaseScene extends Phaser.Scene {
   create() {
     this.debug = this.registry.get("debug");
     this.mobile = this.registry.get("mobile");
-    // if(this.mobile && window.innerHeight < window.innerWidth) {
-    //   this.add.text(window.innerWidth / 2, window.innerHeight / 2, "Please turn your device \nto portrait mode and \nrefresh the page")
-    //     .setFontSize(40)
-    //     .setOrigin(0.5)
-    //     .setPadding(10)
-    //     .setStyle({fill: '#fff', align: 'center'})
-    //   return
-    // }
     this.gw = this.game.config.width as number;
     this.gh = this.game.config.height as number;
   }

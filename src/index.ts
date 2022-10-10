@@ -1,9 +1,10 @@
 import "phaser";
 import MainScene from "./scenes/MainScene";
+import { MENU_BACKGROUND_COLOR } from "./constants";
 
 const config = {
   type: Phaser.AUTO,
-  backgroundColor: "#020115",
+  backgroundColor: MENU_BACKGROUND_COLOR,
   dom: {
     createContainer: true,
   },
