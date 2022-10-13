@@ -1,18 +1,15 @@
 import { BaseScene } from "./BaseScene";
 import { NetStatus } from "../components/lobby/NetStatus";
 import { TextInput } from "../components/lobby/TextInput";
+import { Button } from "../components/common/Button";
 import connectToServer from "../network/Core";
 import { MENU_BACKGROUND_COLOR } from "../constants";
-import RoundRectangle from "phaser3-rex-plugins/plugins/roundrectangle.js";
-import { Text } from "../components/common/Text";
 
-import Button from "phaser3-rex-plugins/plugins/input/button/Button";
 import { percentToHex } from "../util";
 
 export default class MainScene extends BaseScene {
   private name: TextInput;
-  private buttonShape: RoundRectangle;
-  private buttonText: Text;
+  private button: Button;
 
   constructor() {
     super("MainScene");
@@ -65,37 +62,21 @@ export default class MainScene extends BaseScene {
     this.name.setStyle("border-bottom", "5px solid grey");
 
     // Connect Button
-    this.buttonShape = this.add.existing(
-      new RoundRectangle(this, this.getW() / 2, 750, 300, 80, 10)
-    );
-    this.buttonShape.setStrokeStyle(4, 0xffa500);
-
-    this.buttonText = this.add.existing(
-      new Text(this, this.getW() / 2, 750, "Connect", "bFont", 36)
-    );
-    this.buttonText.setOrigin(0.5, 0.5);
-    this.buttonText.setAlign("center");
-    this.buttonText.setColor("#FFA500");
-
-    const connectButton = new Button(this.buttonShape);
+    this.button = new Button(this, this.getW() / 2, 750, 300, 80, null, "Connect", 36, null, null);
+    this.button.addToScene(this);
   }
 
   update(_time: number, _delta: number) {
-    if (
-      this.name.text.trim().length < this.name.minLength &&
-      this.name.text.trim().length > 0
-    ) {
+    if (this.name.text.trim().length < this.name.minLength && this.name.text.trim().length > 0) {
       this.name.fontColor = "red";
     } else {
       this.name.fontColor = "white";
     }
 
     if (this.name.text.trim().length >= this.name.minLength) {
-      this.buttonShape.setVisible(true);
-      this.buttonText.setVisible(true);
+      this.button.show();
     } else {
-      this.buttonShape.setVisible(false);
-      this.buttonText.setVisible(false);
+      this.button.hide();
     }
   }
 }
