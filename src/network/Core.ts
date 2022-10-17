@@ -1,8 +1,28 @@
+import { Socket } from "../types";
 import { io } from "socket.io-client";
 import { NetStatus } from "../components/lobby/NetStatus";
 
-export default function connectToServer(status: NetStatus) {
-  const socket = io("ws://localhost:3000");
+export default function connectToServer(status: NetStatus): Socket {
+  const socket = io("ws://127.0.0.1:3000", { autoConnect: false }) as Socket;
+
+  // Debug
+  socket.onAny((event, ...args) => {
+    console.log(event, args);
+  });
+
+  const sessionID = localStorage.getItem("sessionID");
+  if (sessionID) {
+    socket.auth = { sessionID };
+  }
+  socket.connect();
+
+  socket.on("session", ({ sessionID, userID, username }) => {
+    socket.auth = { sessionID };
+    localStorage.setItem("sessionID", sessionID);
+    socket.sessionID = sessionID;
+    socket.userID = userID;
+    socket.username = username;
+  });
 
   let connectionAttempts = 3;
   socket.on("connect", () => {
@@ -47,7 +67,15 @@ export default function connectToServer(status: NetStatus) {
     } else {
       console.log("Lost connection to the server. Trying again...");
     }
-
-    return socket;
   });
+
+  socket.on("username", ({ username }) => {
+    socket.username = username;
+  });
+
+  return socket;
+}
+
+export function join(socket: Socket, username: string) {
+  socket.emit("join", { username });
 }

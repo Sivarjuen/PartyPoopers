@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+  extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
   overrides: [],
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -12,5 +12,7 @@ module.exports = {
   },
   plugins: ["@typescript-eslint"],
   ignorePatterns: ["webpack/*.js", "**/vendor/*.js", ".eslintrc.js"],
-  rules: {},
+  rules: {
+    "@typescript-eslint/no-explicit-any": "off",
+  },
 };

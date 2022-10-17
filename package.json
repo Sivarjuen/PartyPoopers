@@ -1,18 +1,14 @@
 {
     "name": "party_poopers",
     "version": "1.0.0",
-    "description": "A Phaser 3 Project",
+    "description": "Party Poopers Game",
     "main": "src/game.ts",
     "scripts": {
         "build": "webpack --config webpack/prod.js",
         "start": "webpack serve --open --config webpack/dev.js"
     },
-    "author": "Richard Davey <rich@photonstorm.com> (http://www.photonstorm.com)",
+    "author": "Sivarjuen Ravichandran",
     "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/photonstorm/phaser3-typescript-project-template/issues"
-    },
-    "homepage": "https://github.com/photonstorm/phaser3-typescript-project-template#readme",
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^5.39.0",
         "@typescript-eslint/parser": "^5.39.0",
@@ -29,7 +25,6 @@
     },
     "dependencies": {
         "lodash": "^4.17.21",
-        "nodemon": "^2.0.15",
         "phaser3-rex-plugins": "^1.1.68",
         "socket.io": "^4.4.1",
         "socket.io-client": "^4.4.1"

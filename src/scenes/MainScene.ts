@@ -2,14 +2,14 @@ import { BaseScene } from "./BaseScene";
 import { NetStatus } from "../components/lobby/NetStatus";
 import { TextInput } from "../components/lobby/TextInput";
 import { Button } from "../components/common/Button";
-import connectToServer from "../network/Core";
+import connectToServer, { join } from "../network/Core";
 import { MENU_BACKGROUND_COLOR } from "../constants";
-
-import { percentToHex } from "../util";
 
 export default class MainScene extends BaseScene {
   private name: TextInput;
   private button: Button;
+  private network: any;
+  private usernameLoaded = false;
 
   constructor() {
     super("MainScene");
@@ -34,12 +34,6 @@ export default class MainScene extends BaseScene {
       repeat: -1,
     });
 
-    // Network
-    const status = this.add.existing(
-      new NetStatus(this, this.getW() - 32, this.getH() - 32, "bFont")
-    );
-    const network = connectToServer(status);
-
     // Name Input
     this.name = this.add.existing(
       new TextInput(this, this.getW() / 2, 600, {
@@ -61,12 +55,26 @@ export default class MainScene extends BaseScene {
     );
     this.name.setStyle("border-bottom", "5px solid grey");
 
+    // Network
+    const status = this.add.existing(
+      new NetStatus(this, this.getW() - 32, this.getH() - 32, "bFont")
+    );
+
+    this.network = connectToServer(status);
+
     // Connect Button
-    this.button = new Button(this, this.getW() / 2, 750, 300, 80, null, "Connect", 36, null, null);
+    this.button = new Button(this, this.getW() / 2, 750, 300, 80, null, "Connect", 36, null, () => {
+      this.usernameLoaded = true;
+      join(this.network, this.name.text);
+    });
     this.button.addToScene(this);
   }
 
   update(_time: number, _delta: number) {
+    if (!this.usernameLoaded && this.network.username) {
+      this.name.text = this.network.username;
+      this.usernameLoaded = true;
+    }
     if (this.name.text.trim().length < this.name.minLength && this.name.text.trim().length > 0) {
       this.name.fontColor = "red";
     } else {
