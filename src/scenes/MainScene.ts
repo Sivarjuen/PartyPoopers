@@ -8,7 +8,6 @@ import { MENU_BACKGROUND_COLOR } from "../constants";
 export default class MainScene extends BaseScene {
   private name: TextInput;
   private button: Button;
-  private network: any;
   private usernameLoaded = false;
 
   constructor() {
@@ -60,19 +59,21 @@ export default class MainScene extends BaseScene {
       new NetStatus(this, this.getW() - 32, this.getH() - 32, "bFont")
     );
 
-    this.network = connectToServer(status);
+    const socket = connectToServer(status);
+    this.registry.set("socket", socket);
 
     // Connect Button
     this.button = new Button(this, this.getW() / 2, 750, 300, 80, null, "Connect", 36, null, () => {
       this.usernameLoaded = true;
-      join(this.network, this.name.text);
+      join(socket, this.name.text);
     });
     this.button.addToScene(this);
   }
 
   update(_time: number, _delta: number) {
-    if (!this.usernameLoaded && this.network.username) {
-      this.name.text = this.network.username;
+    const network = this.registry.get("socket");
+    if (!this.usernameLoaded && network.username) {
+      this.name.text = network.username;
       this.usernameLoaded = true;
     }
     if (this.name.text.trim().length < this.name.minLength && this.name.text.trim().length > 0) {
@@ -81,7 +82,7 @@ export default class MainScene extends BaseScene {
       this.name.fontColor = "white";
     }
 
-    if (this.name.text.trim().length >= this.name.minLength && this.network.connected) {
+    if (this.name.text.trim().length >= this.name.minLength && network.connected) {
       this.button.show();
     } else {
       this.button.hide();
