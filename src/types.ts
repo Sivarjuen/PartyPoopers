@@ -4,3 +4,13 @@ export declare type Socket = SocketIO & {
   userID?: string;
   username?: string;
 };
+
+export type Vector2D = {
+  x: number;
+  y: number;
+};
+
+export type LobbyListItem = {
+  name: string;
+  players: number;
+};

@@ -15,11 +15,11 @@ export default class MainScene extends BaseScene {
     super("MainScene");
   }
 
-  preload() {
+  preload(): void {
     this.load.image("logo", "assets/logo.png");
   }
 
-  create() {
+  create(): void {
     super.create();
 
     // Logo
@@ -81,7 +81,7 @@ export default class MainScene extends BaseScene {
       this.name.fontColor = "white";
     }
 
-    if (this.name.text.trim().length >= this.name.minLength) {
+    if (this.name.text.trim().length >= this.name.minLength && this.network.connected) {
       this.button.show();
     } else {
       this.button.hide();

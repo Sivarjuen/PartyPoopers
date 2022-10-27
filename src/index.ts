@@ -1,5 +1,6 @@
 import "phaser";
 import MainScene from "./scenes/MainScene";
+import LobbyListScene from "./scenes/LobbyListScene";
 import { MENU_BACKGROUND_COLOR } from "./constants";
 
 const config = {
@@ -16,6 +17,7 @@ const config = {
     height: 1080,
   },
   scene: MainScene,
+  // scene: LobbyListScene,
 };
 
 const game = new Phaser.Game(config);

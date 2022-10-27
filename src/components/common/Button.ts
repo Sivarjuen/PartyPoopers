@@ -63,4 +63,19 @@ export class Button {
     this.shape.setVisible(false);
     this.text.setVisible(false);
   }
+
+  public setShapePosition(x: number, y: number) {
+    this.shape.x = x;
+    this.shape.y = y;
+  }
+
+  public setTextPosition(x: number, y: number) {
+    this.text.x = x;
+    this.text.y = y;
+  }
+
+  public setPosition(x: number, y: number) {
+    this.setShapePosition(x, y);
+    this.setTextPosition(x, y);
+  }
 }
