@@ -55,9 +55,7 @@ export default class MainScene extends BaseScene {
     this.name.setStyle("border-bottom", "5px solid grey");
 
     // Network
-    const status = this.add.existing(
-      new NetStatus(this, this.getW() - 32, this.getH() - 32, "bFont")
-    );
+    const status = this.add.existing(new NetStatus(this, this.getW() - 32, this.getH() - 32, "bFont"));
 
     const socket = connectToServer(status);
     this.registry.set("socket", socket);

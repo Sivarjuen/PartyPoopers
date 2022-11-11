@@ -9,6 +9,7 @@ export class Button {
   public shape: Phaser.GameObjects.Shape;
   public text: Text;
   public button: RexButton;
+  public selected?: boolean;
 
   constructor(
     scene: Phaser.Scene,
