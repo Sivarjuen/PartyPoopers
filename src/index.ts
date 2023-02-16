@@ -16,8 +16,7 @@ const config = {
     width: 1920,
     height: 1080,
   },
-  scene: MainScene,
-  // scene: LobbyListScene,
+  scene: [MainScene, LobbyListScene],
 };
 
 const game = new Phaser.Game(config);

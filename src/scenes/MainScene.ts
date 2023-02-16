@@ -63,7 +63,9 @@ export default class MainScene extends BaseScene {
     // Connect Button
     this.button = new Button(this, this.getW() / 2, 750, 300, 80, null, "Connect", 36, null, () => {
       this.usernameLoaded = true;
-      join(socket, this.name.text);
+      join(socket, this.name.text, (lobbies: any): void => {
+        this.scene.start("LobbyListScene", { lobbies: lobbies });
+      });
     });
     this.button.addToScene(this);
   }

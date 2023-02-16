@@ -69,13 +69,17 @@ export default function connectToServer(status: NetStatus): Socket {
     }
   });
 
+  return socket;
+}
+
+export function join(socket: Socket, requestedUsername: string, callback: (arg1: any) => void) {
+  socket.emit("join", { username: requestedUsername });
+
   socket.on("username", ({ username }) => {
     socket.username = username;
   });
 
-  return socket;
-}
-
-export function join(socket: Socket, username: string) {
-  socket.emit("join", { username });
+  socket.on("lobbyDetails", ({ lobbies }) => {
+    callback(lobbies);
+  });
 }

@@ -2,22 +2,30 @@ import "phaser";
 import { BaseScene } from "./BaseScene";
 import { Button } from "../components/common/Button";
 import { Text } from "../components/common/Text";
-import { LobbyListItem, Vector2D } from "../types";
+import { Lobby, Vector2D } from "../types";
 
 const MAX_LOBBIES = 3;
 
 export default class LobbyListScene extends BaseScene {
+  private initData: any;
   private lobbies: Button[] = [];
   private createLobby: Button;
   private confirmText: Text;
   private lobby_positions: Vector2D[][] = [];
+  private socket: any;
 
   constructor() {
     super("LobbyListScene");
   }
 
+  init(data: any): void {
+    this.initData = data;
+  }
+
   create(): void {
     super.create();
+
+    this.socket = this.registry.get("socket");
 
     // Lobby positions
     this.lobby_positions = [
@@ -154,7 +162,14 @@ export default class LobbyListScene extends BaseScene {
       lobbyButton.hide();
     });
 
-    this.updateLobbyDetails([{ name: "User1", players: 2 }]);
+    this.handleNetwork();
+  }
+
+  handleNetwork() {
+    this.updateLobbyDetails(this.initData.lobbies);
+    this.socket.on("lobbyDetails", ({ lobbies }) => {
+      this.updateLobbyDetails(lobbies);
+    });
   }
 
   updateLobbyPositions(openLobbies: number) {
@@ -195,10 +210,10 @@ export default class LobbyListScene extends BaseScene {
     }
   }
 
-  updateLobbyDetails(details: LobbyListItem[]) {
+  updateLobbyDetails(details: Lobby[]) {
     for (let i = 0; i < details.length; i++) {
       if (i >= MAX_LOBBIES) continue;
-      this.lobbies[i].text.text = `${details[i].name}'s lobby\n${details[i].players}/8`;
+      this.lobbies[i].text.text = `${details[i].hostname}'s lobby\n${details[i].players.length}/8`;
     }
 
     this.updateLobbyPositions(Math.min(details.length, MAX_LOBBIES));

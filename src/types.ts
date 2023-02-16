@@ -10,7 +10,13 @@ export type Vector2D = {
   y: number;
 };
 
-export type LobbyListItem = {
+export type LobbyPlayer = {
   name: string;
-  players: number;
+  ready: boolean;
+};
+
+export type Lobby = {
+  id: string;
+  hostname: string;
+  players: Array<LobbyPlayer>;
 };
