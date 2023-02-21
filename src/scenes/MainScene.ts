@@ -4,6 +4,7 @@ import { TextInput } from "../components/lobby/TextInput";
 import { Button } from "../components/common/Button";
 import connectToServer, { join } from "../network/Core";
 import { MENU_BACKGROUND_COLOR } from "../constants";
+import { Footer } from "../components/lobby/Footer";
 
 export default class MainScene extends BaseScene {
   private name: TextInput;
@@ -57,6 +58,9 @@ export default class MainScene extends BaseScene {
     // Network
     const status = this.add.existing(new NetStatus(this, this.getW() - 32, this.getH() - 32, "bFont"));
 
+    // Version
+    this.add.existing(new Footer(this, 32, this.getH() - 32, "bFont"));
+
     const socket = connectToServer(status);
     this.registry.set("socket", socket);
 
@@ -66,6 +70,17 @@ export default class MainScene extends BaseScene {
       join(socket, this.name.text, (lobbies: any): void => {
         this.scene.start("LobbyListScene", { lobbies: lobbies });
       });
+    });
+    this.button.text.setColor(0xffa500);
+    this.button.shape.on("pointerover", () => {
+      this.button.shape.setFillStyle(0xffa500, 0x111111);
+      this.button.text.setFontSize(38);
+      this.button.text.setColor(0x0f0f0f);
+    });
+    this.button.shape.on("pointerout", () => {
+      this.button.shape.setFillStyle(0xffa500, 0x000000);
+      this.button.text.setFontSize(36);
+      this.button.text.setColor(0xffa500);
     });
     this.button.addToScene(this);
   }

@@ -1,7 +1,6 @@
 import "phaser";
 import { BaseScene } from "./BaseScene";
 import { Button } from "../components/common/Button";
-import { Text } from "../components/common/Text";
 import { Lobby, Vector2D } from "../types";
 
 const MAX_LOBBIES = 3;
@@ -10,7 +9,7 @@ export default class LobbyListScene extends BaseScene {
   private initData: any;
   private lobbies: Button[] = [];
   private createLobby: Button;
-  private confirmText: Text;
+  private confirmButton: Button;
   private lobby_positions: Vector2D[][] = [];
   private socket: any;
 
@@ -27,31 +26,55 @@ export default class LobbyListScene extends BaseScene {
 
     this.socket = this.registry.get("socket");
 
-    // Lobby positions
-    this.lobby_positions = [
-      [{ x: this.getW() / 2, y: this.getH() / 2 }],
-      [
-        { x: this.getW() / 3, y: this.getH() / 2 },
-        { x: (2 * this.getW()) / 3, y: this.getH() / 2 },
-      ],
-      [
-        { x: this.getW() / 4, y: this.getH() / 2 },
-        { x: this.getW() / 2, y: this.getH() / 2 },
-        { x: (3 * this.getW()) / 4, y: this.getH() / 2 },
-      ],
-    ];
-
     // Lobby button(s)
     const button_width = 400;
     const button_height = 150;
     const button_font_size = 36;
 
-    this.confirmText = new Text(this, 0, 0, "", "bFont", 64);
-    this.confirmText.setColor("#EEEEEE");
-    this.confirmText.setOrigin(0.5, 0.5);
-    this.add.existing(this.confirmText);
-    this.confirmText.setVisible(false);
-    this.confirmText.setDepth(10);
+    // Lobby positions
+    this.lobby_positions = [
+      [{ x: this.getW() / 2, y: (this.getH() * 2) / 5 }],
+      [
+        { x: this.getW() / 3, y: (this.getH() * 2) / 5 },
+        { x: (2 * this.getW()) / 3, y: (this.getH() * 2) / 5 },
+      ],
+      [
+        { x: this.getW() / 4, y: (this.getH() * 2) / 5 },
+        { x: this.getW() / 2, y: (this.getH() * 2) / 5 },
+        { x: (3 * this.getW()) / 4, y: (this.getH() * 2) / 5 },
+      ],
+    ];
+
+    const confirm_position = { x: this.getW() / 2, y: (this.getH() * 3.5) / 5 };
+
+    this.confirmButton = new Button(
+      this,
+      confirm_position.x,
+      confirm_position.y,
+      200,
+      100,
+      null,
+      "",
+      button_font_size + 2
+    );
+
+    this.confirmButton.setBaseStyle((b: Button) => {
+      b.shape.setStrokeStyle(4, 0xffa500);
+      b.shape.setFillStyle(0xffa500, 0x000000);
+      b.text.setColor(0xffa500);
+      b.text.setFontSize(button_font_size);
+    });
+
+    this.confirmButton.setHoverStyle((b: Button) => {
+      b.shape.setFillStyle(0xffa500, 0x111111);
+      b.text.setFontSize(button_font_size + 2);
+      b.text.setColor(0x0f0f0f);
+    });
+
+    this.confirmButton.button.on("click", () => {});
+
+    this.confirmButton.addToScene(this);
+    this.confirmButton.hide();
 
     this.createLobby = new Button(
       this,
@@ -63,46 +86,35 @@ export default class LobbyListScene extends BaseScene {
       "+\nCreate lobby",
       button_font_size
     );
-    this.createLobby.shape.setStrokeStyle(4, 0x444444);
-    this.createLobby.shape.setFillStyle(0x444444, 0x888888);
-    this.createLobby.text.setColor(0xaaaaaa);
-    this.createLobby.shape.on("pointerover", () => {
-      if (!this.createLobby.selected) {
-        this.createLobby.shape.setStrokeStyle(10, 0x444444);
-        this.createLobby.shape.setFillStyle(0x666666, 0x555555);
-        this.createLobby.text.setFontSize(button_font_size + 2);
-        this.createLobby.text.setColor(0xdddddd);
-      }
-    });
-    this.createLobby.shape.on("pointerout", () => {
-      if (!this.createLobby.selected) {
-        this.createLobby.shape.setStrokeStyle(4, 0x444444);
-        this.createLobby.shape.setFillStyle(0x444444, 0x888888);
-        this.createLobby.text.setFontSize(button_font_size);
-        this.createLobby.text.setColor(0xbbbbbb);
-      }
-    });
-    this.createLobby.button.on("click", () => {
-      if (this.createLobby.selected) {
-        console.log("Creating");
-      } else {
-        this.createLobby.selected = true;
-        this.createLobby.shape.setStrokeStyle(6, 0xffffff);
-        this.createLobby.shape.setFillStyle(0x1a9f61, 0x111111);
-        this.createLobby.text.setVisible(false);
-        this.confirmText.text = "Confirm";
-        this.confirmText.setVisible(true);
-        this.confirmText.setPosition(this.createLobby.shape.getCenter().x, this.createLobby.shape.getCenter().y);
 
-        this.lobbies.forEach((b) => {
-          b.selected = false;
-          b.text.setVisible(true);
-          b.shape.setStrokeStyle(1, 0xcccccc);
-          b.shape.setFillStyle(0xeeeeee, 0x444444);
-          b.text.setColor(0x222222);
-          b.text.setFontSize(button_font_size);
-        });
-      }
+    this.createLobby.setBaseStyle((b: Button) => {
+      b.shape.setStrokeStyle(0, 0x444444);
+      b.shape.setFillStyle(0x444444, 0x888888);
+      b.text.setColor(0xaaaaaa);
+      b.text.setFontSize(button_font_size);
+    });
+
+    this.createLobby.setHoverStyle((b: Button) => {
+      b.shape.setStrokeStyle(0, 0x444444);
+      b.shape.setFillStyle(0x666666, 0x555555);
+      b.text.setFontSize(button_font_size + 2);
+      b.text.setColor(0xdddddd);
+    });
+
+    this.createLobby.setSelectedStyle((b: Button) => {
+      b.shape.setStrokeStyle(6, 0xffffff);
+      b.shape.setFillStyle(0x666666, 0x555555);
+    });
+
+    this.createLobby.button.on("click", () => {
+      this.createLobby.selected = true;
+      this.confirmButton.text.text = "Create";
+      this.confirmButton.show();
+
+      this.lobbies.forEach((b) => {
+        b.selected = false;
+        b.applyBaseStyle();
+      });
     });
     this.createLobby.addToScene(this);
     this.createLobby.hide();
@@ -111,52 +123,38 @@ export default class LobbyListScene extends BaseScene {
     this.lobbies.push(new Button(this, -100, 0, button_width, button_height, null, "Lobby2", button_font_size));
     this.lobbies.push(new Button(this, -100, 0, button_width, button_height, null, "Lobby3", button_font_size));
     this.lobbies.forEach((lobbyButton) => {
-      lobbyButton.shape.setStrokeStyle(1, 0xcccccc);
-      lobbyButton.shape.setFillStyle(0xeeeeee, 0x444444);
-      lobbyButton.text.setColor(0x222222);
-      lobbyButton.shape.on("pointerover", () => {
-        if (!lobbyButton.selected) {
-          lobbyButton.shape.setStrokeStyle(6, 0xffffff);
-          lobbyButton.shape.setFillStyle(0xeeeeee, 0x111111);
-          lobbyButton.text.setColor(0x000000);
-          lobbyButton.text.setFontSize(button_font_size + 2);
-        }
+      lobbyButton.setBaseStyle((b: Button) => {
+        b.shape.setStrokeStyle(0, 0xcccccc);
+        b.shape.setFillStyle(0x2b53e3, 0xb3b3b3);
+        b.text.setColor(0xe6e6e6);
+        b.text.setFontSize(button_font_size);
       });
-      lobbyButton.shape.on("pointerout", () => {
-        if (!lobbyButton.selected) {
-          lobbyButton.shape.setStrokeStyle(1, 0xcccccc);
-          lobbyButton.shape.setFillStyle(0xeeeeee, 0x444444);
-          lobbyButton.text.setColor(0x222222);
-          lobbyButton.text.setFontSize(button_font_size);
-        }
+
+      lobbyButton.setHoverStyle((b: Button) => {
+        b.shape.setFillStyle(0x2554fe, 0x111111);
+        b.text.setFontSize(button_font_size + 2);
+        b.text.setColor(0xffffff);
       });
+
+      lobbyButton.setSelectedStyle((b: Button) => {
+        b.shape.setStrokeStyle(6, 0xffffff);
+        b.shape.setFillStyle(0x2554fe, 0x111111);
+      });
+
       lobbyButton.button.on("click", () => {
-        if (lobbyButton.selected) {
-          console.log("Joining");
-        } else {
-          lobbyButton.selected = true;
-          lobbyButton.shape.setFillStyle(0x1a9f61, 0x111111);
-          lobbyButton.text.setVisible(false);
-          this.confirmText.text = "Join";
-          this.confirmText.setVisible(true);
-          this.confirmText.setPosition(lobbyButton.shape.getCenter().x, lobbyButton.shape.getCenter().y);
-          if (this.createLobby.shape.visible) {
-            this.createLobby.text.setVisible(true);
-            this.createLobby.selected = false;
-            this.createLobby.shape.setStrokeStyle(4, 0x444444);
-            this.createLobby.shape.setFillStyle(0x444444, 0x888888);
-          }
-          this.lobbies.forEach((b) => {
-            if (b !== lobbyButton && b.shape.visible) {
-              b.selected = false;
-              b.text.setVisible(true);
-              b.shape.setStrokeStyle(1, 0xcccccc);
-              b.shape.setFillStyle(0xeeeeee, 0x444444);
-              b.text.setColor(0x222222);
-              b.text.setFontSize(button_font_size);
-            }
-          });
+        lobbyButton.selected = true;
+        this.confirmButton.text.text = "Join";
+        this.confirmButton.show();
+        if (this.createLobby.shape.visible) {
+          this.createLobby.selected = false;
+          this.createLobby.applyBaseStyle();
         }
+        this.lobbies.forEach((b) => {
+          if (b !== lobbyButton && b.shape.visible) {
+            b.selected = false;
+            b.applyBaseStyle();
+          }
+        });
       });
       lobbyButton.addToScene(this);
       lobbyButton.hide();
@@ -175,7 +173,6 @@ export default class LobbyListScene extends BaseScene {
   updateLobbyPositions(openLobbies: number) {
     this.createLobby.hide();
     this.lobbies.forEach((lobby) => lobby.hide());
-    this.confirmText.setVisible(false);
     switch (openLobbies) {
       case 0:
         this.createLobby.setPosition(this.lobby_positions[0][0].x, this.lobby_positions[0][0].y);

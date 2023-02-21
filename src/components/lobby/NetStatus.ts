@@ -3,9 +3,9 @@ import { Spinner } from "phaser3-rex-plugins/templates/spinner/spinner-component
 import { Text } from "../common/Text";
 
 export class NetStatus extends Phaser.GameObjects.Container {
-  private text;
-  private spinner;
-  private graphics;
+  private text: Text;
+  private spinner: Spinner;
+  private graphics: Phaser.GameObjects.Graphics;
 
   constructor(scene: Phaser.Scene, x: number, y: number, font: string) {
     super(scene, x, y);

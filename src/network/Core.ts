@@ -24,7 +24,7 @@ export default function connectToServer(status: NetStatus): Socket {
     socket.username = username;
   });
 
-  let connectionAttempts = 3;
+  let connectionAttempts = 2;
   socket.on("connect", () => {
     console.log("Connected to server.");
     setTimeout(function () {
@@ -38,10 +38,10 @@ export default function connectToServer(status: NetStatus): Socket {
   });
 
   socket.on("connect_error", () => {
-    if (connectionAttempts == 3) {
-      console.log("Failed to connect to server. Trying again...");
+    if (connectionAttempts == 2) {
+      console.log("Failed to connect to server. \nTrying again... (Retry 1)");
     } else {
-      console.log("Trying again...");
+      console.log(`Trying again... (Retry ${3 - connectionAttempts})`);
     }
     connectionAttempts -= 1;
     if (connectionAttempts > 0) {

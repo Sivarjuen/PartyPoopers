@@ -10,6 +10,10 @@ export class Button {
   public text: Text;
   public button: RexButton;
   public selected?: boolean;
+  public applyBaseStyle?: () => void;
+  public applyHoverStyle?: () => void;
+  public applySelectedStyle?: () => void;
+  public disableDefaultEvents = false;
 
   constructor(
     scene: Phaser.Scene,
@@ -50,6 +54,28 @@ export class Button {
     }
   }
 
+  private initEvents() {
+    this.shape.on("pointerout", () => {
+      if (this.applyBaseStyle && !this.disableDefaultEvents) {
+        if (!this.selected || this.applySelectedStyle === undefined) {
+          this.applyBaseStyle();
+        }
+      }
+    });
+    this.shape.on("pointerover", () => {
+      if (this.applyHoverStyle && !this.disableDefaultEvents) {
+        if (!this.selected || this.applySelectedStyle === undefined) {
+          this.applyHoverStyle();
+        }
+      }
+    });
+    this.button.on("click", () => {
+      if (this.applySelectedStyle && !this.disableDefaultEvents) {
+        this.applySelectedStyle();
+      }
+    });
+  }
+
   public addToScene(scene: Phaser.Scene) {
     scene.add.existing(this.shape);
     scene.add.existing(this.text);
@@ -78,5 +104,21 @@ export class Button {
   public setPosition(x: number, y: number) {
     this.setShapePosition(x, y);
     this.setTextPosition(x, y);
+  }
+
+  public setBaseStyle(fn: (b: Button) => void) {
+    this.applyBaseStyle = () => fn(this);
+    this.applyBaseStyle();
+    this.initEvents();
+  }
+
+  public setHoverStyle(fn: (b: Button) => void) {
+    this.applyHoverStyle = () => fn(this);
+    this.initEvents();
+  }
+
+  public setSelectedStyle(fn: (b: Button) => void) {
+    this.applySelectedStyle = () => fn(this);
+    this.initEvents();
   }
 }
