@@ -1,9 +1,9 @@
 {
-    "compilerOptions": {
-        "target": "es6",
-        "moduleResolution": "node"
-    },
-    "include": [
-        "./src/**/*"
-    ]
+  "compilerOptions": {
+    "target": "es6",
+    "moduleResolution": "node",
+    "jsx": "react-jsx",
+    "jsxImportSource": "tsx-dom"
+  },
+  "include": ["./src/**/*"]
 }

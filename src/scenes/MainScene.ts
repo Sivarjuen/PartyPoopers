@@ -1,14 +1,14 @@
 import { BaseScene } from "./BaseScene";
 import { NetStatus } from "../components/lobby/NetStatus";
 import { TextInput } from "../components/lobby/TextInput";
-import { Button } from "../components/common/Button";
+import { ConnectButton } from "../components/common/Button";
 import connectToServer, { join } from "../network/Core";
 import { MENU_BACKGROUND_COLOR } from "../constants";
 import { Footer } from "../components/lobby/Footer";
 
 export default class MainScene extends BaseScene {
   private name: TextInput;
-  private button: Button;
+  private button: Phaser.GameObjects.DOMElement;
   private usernameLoaded = false;
 
   constructor() {
@@ -65,24 +65,15 @@ export default class MainScene extends BaseScene {
     this.registry.set("socket", socket);
 
     // Connect Button
-    this.button = new Button(this, this.getW() / 2, 750, 300, 80, null, "Connect", 36, null, () => {
+    this.button = this.add.dom(this.getW() / 2, 750, ConnectButton);
+    this.button.addListener("click");
+    this.button.on("click", () => {
       this.usernameLoaded = true;
-      join(socket, this.name.text, (lobbies: any): void => {
-        this.scene.start("LobbyListScene", { lobbies: lobbies });
+      join(socket, this.name.text, (): void => {
+        this.scene.start("LobbyListScene");
       });
     });
-    this.button.text.setColor(0xffa500);
-    this.button.shape.on("pointerover", () => {
-      this.button.shape.setFillStyle(0xffa500, 0x111111);
-      this.button.text.setFontSize(38);
-      this.button.text.setColor(0x0f0f0f);
-    });
-    this.button.shape.on("pointerout", () => {
-      this.button.shape.setFillStyle(0xffa500, 0x000000);
-      this.button.text.setFontSize(36);
-      this.button.text.setColor(0xffa500);
-    });
-    this.button.addToScene(this);
+    this.button.setVisible(false);
   }
 
   update(_time: number, _delta: number) {
@@ -98,9 +89,9 @@ export default class MainScene extends BaseScene {
     }
 
     if (this.name.text.trim().length >= this.name.minLength && network.connected) {
-      this.button.show();
+      this.button.setVisible(true);
     } else {
-      this.button.hide();
+      this.button.setVisible(false);
     }
   }
 }

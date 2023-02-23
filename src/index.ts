@@ -3,7 +3,7 @@ import MainScene from "./scenes/MainScene";
 import LobbyListScene from "./scenes/LobbyListScene";
 import { MENU_BACKGROUND_COLOR } from "./constants";
 
-const config = {
+const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   backgroundColor: MENU_BACKGROUND_COLOR,
   dom: {

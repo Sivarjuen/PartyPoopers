@@ -11,7 +11,7 @@ export class Footer extends Phaser.GameObjects.Container {
     const version = `v${process.env.npm_package_version}`;
     const author = "Sivarjuen Ravichandran ©";
 
-    console.log(`Client v${version}`);
+    console.log(`Client ${version}`);
 
     this.versionText = new Text(scene, 0, -32, version, font, 20);
     this.versionText.setOrigin(0, 0.5);

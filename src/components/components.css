@@ -1,0 +1,25 @@
+.button {
+    font-family: 'beaufort';
+    font-size: 34px;
+    font-weight: 500;
+    line-height: 0px;
+    width: 300px;
+    border-radius: 10px;
+    border-width: 4px;
+}
+
+.lobby-button {
+    font-family: 'beaufort';
+    font-size: 38px;
+    font-weight: 500;
+    line-height: 0px;
+    width: 200px;
+    height: 100px;
+    border-radius: 10px;
+    border-width: 4px;
+}
+
+.h3 {
+    font-family: 'beaufort';
+    color: white;
+}

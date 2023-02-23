@@ -30,6 +30,10 @@ module.exports = {
         loader: "ts-loader",
         exclude: [path.resolve(__dirname, "../node_modules"), path.resolve(__dirname, "../server")],
       },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
     ],
   },
   resolve: {

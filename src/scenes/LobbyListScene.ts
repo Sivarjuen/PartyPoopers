@@ -1,15 +1,16 @@
 import "phaser";
 import { BaseScene } from "./BaseScene";
-import { Button } from "../components/common/Button";
+import { Button } from "../components/common/ButtonOld";
 import { Lobby, Vector2D } from "../types";
+import { LobbyButton } from "../components/common/Button";
+import { ConnectedAsText } from "../components/lobby/Text";
 
 const MAX_LOBBIES = 3;
 
 export default class LobbyListScene extends BaseScene {
-  private initData: any;
   private lobbies: Button[] = [];
   private createLobby: Button;
-  private confirmButton: Button;
+  private confirmButton: Phaser.GameObjects.DOMElement;
   private lobby_positions: Vector2D[][] = [];
   private socket: any;
 
@@ -17,14 +18,12 @@ export default class LobbyListScene extends BaseScene {
     super("LobbyListScene");
   }
 
-  init(data: any): void {
-    this.initData = data;
-  }
-
   create(): void {
     super.create();
 
     this.socket = this.registry.get("socket");
+
+    this.add.dom(this.getW() / 2, this.getH() / 6, ConnectedAsText(this.socket.username));
 
     // Lobby button(s)
     const button_width = 400;
@@ -47,34 +46,10 @@ export default class LobbyListScene extends BaseScene {
 
     const confirm_position = { x: this.getW() / 2, y: (this.getH() * 3.5) / 5 };
 
-    this.confirmButton = new Button(
-      this,
-      confirm_position.x,
-      confirm_position.y,
-      200,
-      100,
-      null,
-      "",
-      button_font_size + 2
-    );
+    this.confirmButton = this.add.dom(confirm_position.x, confirm_position.y, LobbyButton);
 
-    this.confirmButton.setBaseStyle((b: Button) => {
-      b.shape.setStrokeStyle(4, 0xffa500);
-      b.shape.setFillStyle(0xffa500, 0x000000);
-      b.text.setColor(0xffa500);
-      b.text.setFontSize(button_font_size);
-    });
-
-    this.confirmButton.setHoverStyle((b: Button) => {
-      b.shape.setFillStyle(0xffa500, 0x111111);
-      b.text.setFontSize(button_font_size + 2);
-      b.text.setColor(0x0f0f0f);
-    });
-
-    this.confirmButton.button.on("click", () => {});
-
-    this.confirmButton.addToScene(this);
-    this.confirmButton.hide();
+    this.confirmButton.setVisible(false);
+    // TODO - add on click listener
 
     this.createLobby = new Button(
       this,
@@ -108,8 +83,8 @@ export default class LobbyListScene extends BaseScene {
 
     this.createLobby.button.on("click", () => {
       this.createLobby.selected = true;
-      this.confirmButton.text.text = "Create";
-      this.confirmButton.show();
+      this.confirmButton.visible = true;
+      this.confirmButton.node.innerHTML = "Create";
 
       this.lobbies.forEach((b) => {
         b.selected = false;
@@ -143,8 +118,8 @@ export default class LobbyListScene extends BaseScene {
 
       lobbyButton.button.on("click", () => {
         lobbyButton.selected = true;
-        this.confirmButton.text.text = "Join";
-        this.confirmButton.show();
+        this.confirmButton.visible = true;
+        this.confirmButton.node.innerHTML = "Join";
         if (this.createLobby.shape.visible) {
           this.createLobby.selected = false;
           this.createLobby.applyBaseStyle();
@@ -164,7 +139,7 @@ export default class LobbyListScene extends BaseScene {
   }
 
   handleNetwork() {
-    this.updateLobbyDetails(this.initData.lobbies);
+    this.socket.emit("getLobbyDetails");
     this.socket.on("lobbyDetails", ({ lobbies }) => {
       this.updateLobbyDetails(lobbies);
     });
