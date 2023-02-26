@@ -3,19 +3,23 @@ import { BaseScene } from "./BaseScene";
 import { Button } from "../components/common/ButtonOld";
 import { Lobby, Vector2D } from "../types";
 import { LobbyButton } from "../components/common/Button";
-import { ConnectedAsText } from "../components/lobby/Text";
+import ConnectedAsText from "../components/lobby/ConnectedAsText";
+import { LobbyList, LobbyListItem } from "../components/lobby/LobbyList";
 
 const MAX_LOBBIES = 3;
 
 export default class LobbyListScene extends BaseScene {
-  private lobbies: Button[] = [];
+  private lobbies: Button[];
   private createLobby: Button;
-  private confirmButton: Phaser.GameObjects.DOMElement;
-  private lobby_positions: Vector2D[][] = [];
+  private joinLobbyButton: Phaser.GameObjects.DOMElement;
+  private createLobbyButton: Phaser.GameObjects.DOMElement;
+  private lobby_positions: Vector2D[][];
   private socket: any;
 
   constructor() {
     super("LobbyListScene");
+    this.lobbies = [];
+    this.lobby_positions = [];
   }
 
   create(): void {
@@ -44,105 +48,107 @@ export default class LobbyListScene extends BaseScene {
       ],
     ];
 
-    const confirm_position = { x: this.getW() / 2, y: (this.getH() * 3.5) / 5 };
+    this.add.dom(this.getW() / 2, (this.getH() * 9) / 20, LobbyList());
 
-    this.confirmButton = this.add.dom(confirm_position.x, confirm_position.y, LobbyButton);
+    const confirm_position = { x: this.getW() / 2, y: (this.getH() * 4) / 5 };
+    this.joinLobbyButton = this.add.dom(confirm_position.x, confirm_position.y, LobbyButton as HTMLElement);
 
-    this.confirmButton.setVisible(false);
+    this.joinLobbyButton.node.toggleAttribute("disabled");
+    this.joinLobbyButton.node.textContent = "Confirm";
     // TODO - add on click listener
 
-    this.createLobby = new Button(
-      this,
-      -100,
-      0,
-      button_width,
-      button_height,
-      null,
-      "+\nCreate lobby",
-      button_font_size
-    );
+    // this.createLobby = new Button(
+    //   this,
+    //   -100,
+    //   0,
+    //   button_width,
+    //   button_height,
+    //   null,
+    //   "+\nCreate lobby",
+    //   button_font_size
+    // );
 
-    this.createLobby.setBaseStyle((b: Button) => {
-      b.shape.setStrokeStyle(0, 0x444444);
-      b.shape.setFillStyle(0x444444, 0x888888);
-      b.text.setColor(0xaaaaaa);
-      b.text.setFontSize(button_font_size);
-    });
+    // this.createLobby.setBaseStyle((b: Button) => {
+    //   b.shape.setStrokeStyle(0, 0x444444);
+    //   b.shape.setFillStyle(0x444444, 0x888888);
+    //   b.text.setColor(0xaaaaaa);
+    //   b.text.setFontSize(button_font_size);
+    // });
 
-    this.createLobby.setHoverStyle((b: Button) => {
-      b.shape.setStrokeStyle(0, 0x444444);
-      b.shape.setFillStyle(0x666666, 0x555555);
-      b.text.setFontSize(button_font_size + 2);
-      b.text.setColor(0xdddddd);
-    });
+    // this.createLobby.setHoverStyle((b: Button) => {
+    //   b.shape.setStrokeStyle(0, 0x444444);
+    //   b.shape.setFillStyle(0x666666, 0x555555);
+    //   b.text.setFontSize(button_font_size + 2);
+    //   b.text.setColor(0xdddddd);
+    // });
 
-    this.createLobby.setSelectedStyle((b: Button) => {
-      b.shape.setStrokeStyle(6, 0xffffff);
-      b.shape.setFillStyle(0x666666, 0x555555);
-    });
+    // this.createLobby.setSelectedStyle((b: Button) => {
+    //   b.shape.setStrokeStyle(6, 0xffffff);
+    //   b.shape.setFillStyle(0x666666, 0x555555);
+    // });
 
-    this.createLobby.button.on("click", () => {
-      this.createLobby.selected = true;
-      this.confirmButton.visible = true;
-      this.confirmButton.node.innerHTML = "Create";
+    // this.createLobby.button.on("click", () => {
+    //   this.createLobby.selected = true;
+    //   this.confirmButton.visible = true;
+    //   this.confirmButton.node.innerHTML = "Create";
 
-      this.lobbies.forEach((b) => {
-        b.selected = false;
-        b.applyBaseStyle();
-      });
-    });
-    this.createLobby.addToScene(this);
-    this.createLobby.hide();
+    //   this.lobbies.forEach((b) => {
+    //     b.selected = false;
+    //     b.applyBaseStyle();
+    //   });
+    // });
+    // this.createLobby.addToScene(this);
+    // this.createLobby.hide();
 
-    this.lobbies.push(new Button(this, -100, 0, button_width, button_height, null, "Lobby1", button_font_size));
-    this.lobbies.push(new Button(this, -100, 0, button_width, button_height, null, "Lobby2", button_font_size));
-    this.lobbies.push(new Button(this, -100, 0, button_width, button_height, null, "Lobby3", button_font_size));
-    this.lobbies.forEach((lobbyButton) => {
-      lobbyButton.setBaseStyle((b: Button) => {
-        b.shape.setStrokeStyle(0, 0xcccccc);
-        b.shape.setFillStyle(0x2b53e3, 0xb3b3b3);
-        b.text.setColor(0xe6e6e6);
-        b.text.setFontSize(button_font_size);
-      });
+    // this.lobbies.push(new Button(this, -100, 0, button_width, button_height, null, "Lobby1", button_font_size));
+    // this.lobbies.push(new Button(this, -100, 0, button_width, button_height, null, "Lobby2", button_font_size));
+    // this.lobbies.push(new Button(this, -100, 0, button_width, button_height, null, "Lobby3", button_font_size));
+    // this.lobbies.forEach((lobbyButton) => {
+    //   lobbyButton.setBaseStyle((b: Button) => {
+    //     b.shape.setStrokeStyle(0, 0xcccccc);
+    //     b.shape.setFillStyle(0x2b53e3, 0xb3b3b3);
+    //     b.text.setColor(0xe6e6e6);
+    //     b.text.setFontSize(button_font_size);
+    //   });
 
-      lobbyButton.setHoverStyle((b: Button) => {
-        b.shape.setFillStyle(0x2554fe, 0x111111);
-        b.text.setFontSize(button_font_size + 2);
-        b.text.setColor(0xffffff);
-      });
+    //   lobbyButton.setHoverStyle((b: Button) => {
+    //     b.shape.setFillStyle(0x2554fe, 0x111111);
+    //     b.text.setFontSize(button_font_size + 2);
+    //     b.text.setColor(0xffffff);
+    //   });
 
-      lobbyButton.setSelectedStyle((b: Button) => {
-        b.shape.setStrokeStyle(6, 0xffffff);
-        b.shape.setFillStyle(0x2554fe, 0x111111);
-      });
+    //   lobbyButton.setSelectedStyle((b: Button) => {
+    //     b.shape.setStrokeStyle(6, 0xffffff);
+    //     b.shape.setFillStyle(0x2554fe, 0x111111);
+    //   });
 
-      lobbyButton.button.on("click", () => {
-        lobbyButton.selected = true;
-        this.confirmButton.visible = true;
-        this.confirmButton.node.innerHTML = "Join";
-        if (this.createLobby.shape.visible) {
-          this.createLobby.selected = false;
-          this.createLobby.applyBaseStyle();
-        }
-        this.lobbies.forEach((b) => {
-          if (b !== lobbyButton && b.shape.visible) {
-            b.selected = false;
-            b.applyBaseStyle();
-          }
-        });
-      });
-      lobbyButton.addToScene(this);
-      lobbyButton.hide();
-    });
+    //   lobbyButton.button.on("click", () => {
+    //     lobbyButton.selected = true;
+    //     this.confirmButton.visible = true;
+    //     this.confirmButton.node.innerHTML = "Join";
+    //     if (this.createLobby.shape.visible) {
+    //       this.createLobby.selected = false;
+    //       this.createLobby.applyBaseStyle();
+    //     }
+    //     this.lobbies.forEach((b) => {
+    //       if (b !== lobbyButton && b.shape.visible) {
+    //         b.selected = false;
+    //         b.applyBaseStyle();
+    //       }
+    //     });
+    //   });
+    //   lobbyButton.addToScene(this);
+    //   lobbyButton.hide();
+    // });
 
     this.handleNetwork();
   }
 
   handleNetwork() {
     this.socket.emit("getLobbyDetails");
-    this.socket.on("lobbyDetails", ({ lobbies }) => {
-      this.updateLobbyDetails(lobbies);
-    });
+    // this.socket.on("lobbyDetails", ({ lobbies }) => {
+    //   this.updateLobbyDetails(lobbies);
+    // });
   }
 
   updateLobbyPositions(openLobbies: number) {

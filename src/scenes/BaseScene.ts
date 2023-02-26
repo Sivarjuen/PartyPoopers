@@ -9,8 +9,8 @@ export class BaseScene extends Phaser.Scene {
   public mobile: boolean;
   public debug: boolean;
 
-  constructor(sceneName: string) {
-    super(sceneName);
+  constructor(config: string) {
+    super(config);
   }
 
   /**

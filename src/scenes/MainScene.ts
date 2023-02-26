@@ -9,10 +9,11 @@ import { Footer } from "../components/lobby/Footer";
 export default class MainScene extends BaseScene {
   private name: TextInput;
   private button: Phaser.GameObjects.DOMElement;
-  private usernameLoaded = false;
+  private usernameLoaded: Boolean;
 
   constructor() {
     super("MainScene");
+    this.usernameLoaded = false;
   }
 
   preload(): void {

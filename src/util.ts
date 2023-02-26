@@ -1,3 +1,5 @@
+import "phaser";
+
 export const percentToHex = (p) => {
   const percent = Math.max(0, Math.min(100, p)); // bound percent from 0 to 100
   const intValue = Math.round((percent / 100) * 255); // map percent to nearest integer (0 - 255)

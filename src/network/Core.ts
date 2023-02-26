@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 import { NetStatus } from "../components/lobby/NetStatus";
 
 export default function connectToServer(status: NetStatus): Socket {
-  const socket = io("ws://127.0.0.1:3000", { autoConnect: false }) as Socket;
+  const socket = io("ws://127.0.0.1:3000", { autoConnect: false, transports: ["websocket"] }) as Socket;
 
   // Debug
   socket.onAny((event, ...args) => {

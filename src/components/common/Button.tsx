@@ -1,11 +1,12 @@
-import '../components.css';
+import { h } from "tsx-dom";
+import '../components.scss';
 
 export const ConnectButton = (
-	<button class="button is-primary is-outlined">
+	<button class="connect-button">
 		Connect
 	</button>
-)
+) as HTMLElement
 
 export const LobbyButton = (
-	<button class="button lobby-button is-primary is-outlined"></button>
-)
+	<button class="lobby-button"></button>
+) as HTMLElement

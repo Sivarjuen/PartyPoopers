@@ -16,7 +16,8 @@ const config: Phaser.Types.Core.GameConfig = {
     width: 1920,
     height: 1080,
   },
-  scene: [MainScene, LobbyListScene],
+  // @ts-ignore
+  scene: [new MainScene(), new LobbyListScene()],
 };
 
 const game = new Phaser.Game(config);

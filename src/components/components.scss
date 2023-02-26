@@ -1,0 +1,59 @@
+@charset "utf-8";
+@import "../../node_modules/bulma/bulma.sass";
+
+.button {
+    font-family: 'beaufort';
+    font-size: 34px;
+    font-weight: 500;
+    line-height: 0px;
+    width: 300px;
+    border-radius: 10px;
+    border-width: 4px;
+    padding: 0px;
+}
+
+.connect-button {
+    @extend .button, .is-primary, .is-outlined;
+}
+
+.lobby-button {
+    @extend .button, .is-primary, .is-outlined;
+    font-size: 38px;
+    width: 200px;
+    height: 100px;
+}
+
+.lobby-button[disabled] {
+    border-color: #cccccc;
+    background-color: #cccccc;
+    color: #666666;
+}
+
+.h3 {
+    font-family: 'beaufort';
+    color: white;
+}
+
+.lobby-list-container {
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    height: 500px;
+    border-style: solid;
+    border-radius: 10px;
+    border-color: #cccccc;
+    border-width: 2px;
+    margin: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.lobby-list-item-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: fill;
+    height: 100px;
+    border-radius: 10px;
+    background-color: #666666;
+}
