@@ -1,11 +1,10 @@
 import "phaser";
 import MainScene from "./scenes/MainScene";
 import LobbyListScene from "./scenes/LobbyListScene";
-import { MENU_BACKGROUND_COLOR } from "./constants";
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
-  backgroundColor: MENU_BACKGROUND_COLOR,
+  transparent: true,
   dom: {
     createContainer: true,
   },
@@ -17,7 +16,12 @@ const config: Phaser.Types.Core.GameConfig = {
     height: 1080,
   },
   // @ts-ignore
-  scene: [new MainScene(), new LobbyListScene()],
+  // prettier-ignore
+  scene: [
+    
+    new LobbyListScene(), 
+    new MainScene(),
+  ],
 };
 
 const game = new Phaser.Game(config);

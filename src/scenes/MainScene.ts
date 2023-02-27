@@ -3,7 +3,6 @@ import { NetStatus } from "../components/lobby/NetStatus";
 import { TextInput } from "../components/lobby/TextInput";
 import { ConnectButton } from "../components/common/Button";
 import connectToServer, { join } from "../network/Core";
-import { MENU_BACKGROUND_COLOR } from "../constants";
 import { Footer } from "../components/lobby/Footer";
 
 export default class MainScene extends BaseScene {
@@ -40,7 +39,6 @@ export default class MainScene extends BaseScene {
       new TextInput(this, this.getW() / 2, 600, {
         width: 300,
         height: 80,
-        backgroundColor: MENU_BACKGROUND_COLOR,
         fontFamily: "beaufort",
         fontSize: "36px",
         maxLength: 12,

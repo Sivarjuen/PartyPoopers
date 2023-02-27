@@ -1,8 +1,8 @@
 @charset "utf-8";
 @import "../../node_modules/bulma/bulma.sass";
+@import "../../public/assets/style.scss";
 
 .button {
-    font-family: 'beaufort';
     font-size: 34px;
     font-weight: 500;
     line-height: 0px;
@@ -29,31 +29,84 @@
     color: #666666;
 }
 
-.h3 {
-    font-family: 'beaufort';
+.connected-as-text {
+    @extend .is-size-4;
     color: white;
+}
+
+.lobby-title {
+    @extend .is-family-primary;
+    font-size: 64px;
+    color: white;
+}
+
+.name {
+    @extend .has-text-weight-semibold;
+    font-size: 26px;
+    white-space: nowrap;
+    color: orange;
 }
 
 .lobby-list-container {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     width: 600px;
-    height: 500px;
-    border-style: solid;
-    border-radius: 10px;
-    border-color: #cccccc;
-    border-width: 2px;
+    min-height: 500px;
     margin: 10px;
-    overflow-x: hidden;
-    overflow-y: auto;
 }
 
-.lobby-list-item-container {
+.lobby-list-item {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    color: white;
     width: fill;
-    height: 100px;
-    border-radius: 10px;
-    background-color: #666666;
+    height: 150px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(55, 51, 79);
+    background-image: linear-gradient(to bottom right, rgb(55, 51, 79), rgb(43, 41, 59));
+    background: rgb(2,0,36);
+    background: -moz-linear-gradient(333deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 47%, rgba(0,212,255,1) 100%);
+    background: -webkit-linear-gradient(333deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 47%, rgba(0,212,255,1) 100%);
+    background: linear-gradient(333deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 47%, rgba(0,212,255,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#020024",endColorstr="#00d4ff",GradientType=1); 
+    opacity: 0.6;
+    transition: all .2s ease-in-out;
+}
+
+.lobby-list-item:hover {
+    cursor: pointer;
+    opacity: 1;
+    transition: all .2s ease-in-out;
+    transform: scale(1.1);
+}
+
+.lobby-create {
+    @extend .is-size-2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: lightgray;
+    width: fill;
+    height: 150px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(55, 51, 79);
+    opacity: 0.6;
+    transition: all .2s ease-in-out;
+}
+
+.lobby-create:hover {
+    cursor: pointer;
+    opacity: 1;
+    transition: all .2s ease-in-out;
+    transform: scale(1.1);
 }

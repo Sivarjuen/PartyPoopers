@@ -1,14 +1,10 @@
 // vite.config.js
 import { defineConfig } from "vite";
 import domJsx from "vite-plugin-dom-jsx";
-import react from "@vitejs/plugin-react";
 import { createHtmlPlugin } from "vite-plugin-html";
 
 export default defineConfig({
   plugins: [
-    react({
-      include: ["**/*.tsx", "**/*.ts"],
-    }),
     domJsx(),
     createHtmlPlugin({
       minify: true,
