@@ -1,6 +1,5 @@
 import "phaser";
 import { BaseScene } from "./BaseScene";
-import { Button } from "../components/common/ButtonOld";
 import { Lobby, Vector2D } from "../types";
 import { LobbyButton } from "../components/common/Button";
 import { ConnectedAsText, LobbyTitle } from "../components/lobby/Text";
@@ -9,15 +8,15 @@ import { LobbyCreate, LobbyList, LobbyListItem } from "../components/lobby/Lobby
 const MAX_LOBBIES = 3;
 
 export default class LobbyListScene extends BaseScene {
-  private lobbies: Button[];
-  private createLobby: Button;
+  // private lobbies: Button[];
+  // private createLobby: Button;
   private joinLobbyButton: Phaser.GameObjects.DOMElement;
   private lobby_positions: Vector2D[][];
   private socket: any;
 
   constructor() {
     super("LobbyListScene");
-    this.lobbies = [];
+    // this.lobbies = [];
     this.lobby_positions = [];
   }
 
@@ -71,7 +70,7 @@ export default class LobbyListScene extends BaseScene {
   updateLobbyDetails(details: Lobby[]) {
     for (let i = 0; i < details.length; i++) {
       if (i >= MAX_LOBBIES) continue;
-      this.lobbies[i].text.text = `${details[i].hostname}'s lobby\n${details[i].players.length}/8`;
+      // this.lobbies[i].text.text = `${details[i].hostname}'s lobby\n${details[i].players.length}/8`;
     }
   }
 }

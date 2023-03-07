@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
     "sourceMap": true,
-    // "strict": true,
-    // "noImplicitReturns": true,
-    // "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
     "module": "es6",
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "allowJs": true,
+    "allowJs": false,
     "baseUrl": ".",
     "skipLibCheck": true,
     "target": "es6",
