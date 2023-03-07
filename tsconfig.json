@@ -9,6 +9,7 @@
     "esModuleInterop": true,
     "allowJs": true,
     "baseUrl": ".",
+    "skipLibCheck": true,
     "target": "es6",
     "moduleResolution": "node",
     "jsx": "react",
