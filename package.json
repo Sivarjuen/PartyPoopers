@@ -1,6 +1,6 @@
 {
     "name": "party_poopers",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "description": "Party Poopers Game",
     "main": "src/game.ts",
     "scripts": {
@@ -24,9 +24,8 @@
         "phaser": "^3.55.2",
         "prettier": "^2.8.4",
         "sass": "^1.58.3",
-        "tsc": "^2.0.4",
         "tsx-dom": "^2.0.0",
-        "typescript": "^4.2.3",
+        "typescript": "^4.9.5",
         "vite": "^4.1.4",
         "vite-plugin-dom-jsx": "^0.0.1",
         "vite-plugin-html": "^3.2.0"
