@@ -73,6 +73,8 @@ export default class MainScene extends BaseScene {
       });
     });
     this.button.setVisible(false);
+
+    this.handleInput();
   }
 
   update(_time: number, _delta: number) {
@@ -92,5 +94,13 @@ export default class MainScene extends BaseScene {
     } else {
       this.button.setVisible(false);
     }
+  }
+
+  handleInput() {
+    this.input.keyboard.on("keydown", (event: any) => {
+      if (event.code === "ArrowRight") {
+        this.scene.start("LobbyListScene");
+      }
+    });
   }
 }

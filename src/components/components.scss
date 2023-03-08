@@ -3,110 +3,110 @@
 @import "../../public/assets/style.scss";
 
 .button {
-    font-size: 34px;
-    font-weight: 500;
-    line-height: 0px;
-    width: 300px;
-    border-radius: 10px;
-    border-width: 4px;
-    padding: 0px;
+  font-size: 34px;
+  font-weight: 500;
+  line-height: 0px;
+  width: 300px;
+  border-radius: 10px;
+  border-width: 4px;
+  padding: 0px;
 }
 
 .connect-button {
-    @extend .button, .is-primary, .is-outlined;
+  @extend .button, .is-primary, .is-outlined;
 }
 
 .lobby-button {
-    @extend .button, .is-primary, .is-outlined;
-    font-size: 38px;
-    width: 200px;
-    height: 100px;
+  @extend .button, .is-primary, .is-outlined;
+  font-size: 38px;
+  width: 200px;
+  height: 100px;
 }
 
 .lobby-button[disabled] {
-    border-color: #cccccc;
-    background-color: #cccccc;
-    color: #666666;
+  border-color: #cccccc;
+  background-color: #cccccc;
+  color: #666666;
 }
 
 .connected-as-text {
-    @extend .is-size-4;
-    color: white;
+  @extend .is-size-4;
+  color: white;
 }
 
 .lobby-title {
-    @extend .is-family-primary;
-    font-size: 64px;
-    color: white;
+  @extend .is-family-primary;
+  font-size: 64px;
+  color: white;
 }
 
 .name {
-    @extend .has-text-weight-semibold;
-    font-size: 26px;
-    white-space: nowrap;
-    color: orange;
+  @extend .has-text-weight-semibold;
+  font-size: 26px;
+  white-space: nowrap;
+  color: orange;
 }
 
 .lobby-list-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 600px;
-    min-height: 500px;
-    margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 600px;
+  min-height: 500px;
+  margin: 10px;
 }
 
 .lobby-list-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    width: fill;
-    height: 150px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    border: none;
-    border-radius: 5px;
-    background-color: rgb(55, 51, 79);
-    background-image: linear-gradient(to bottom right, rgb(55, 51, 79), rgb(43, 41, 59));
-    background: rgb(2,0,36);
-    background: -moz-linear-gradient(333deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 47%, rgba(0,212,255,1) 100%);
-    background: -webkit-linear-gradient(333deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 47%, rgba(0,212,255,1) 100%);
-    background: linear-gradient(333deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 47%, rgba(0,212,255,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#020024",endColorstr="#00d4ff",GradientType=1); 
-    opacity: 0.6;
-    transition: all .2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  width: fill;
+  height: 150px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgb(55, 51, 79);
+  background-image: linear-gradient(to bottom right, rgb(55, 51, 79), rgb(43, 41, 59));
+  background: rgb(2, 0, 36);
+  background: -moz-linear-gradient(333deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 47%, rgba(0, 212, 255, 1) 100%);
+  background: -webkit-linear-gradient(333deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 47%, rgba(0, 212, 255, 1) 100%);
+  background: linear-gradient(333deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 47%, rgba(0, 212, 255, 1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#020024",endColorstr="#00d4ff",GradientType=1);
+  opacity: 0.6;
+  transition: all 0.2s ease-in-out;
 }
 
 .lobby-list-item:hover {
-    cursor: pointer;
-    opacity: 1;
-    transition: all .2s ease-in-out;
-    transform: scale(1.1);
+  cursor: pointer;
+  opacity: 1;
+  transition: all 0.2s ease-in-out;
+  transform: scale(1.1);
 }
 
 .lobby-create {
-    @extend .is-size-2;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: lightgray;
-    width: fill;
-    height: 150px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    border: none;
-    border-radius: 5px;
-    background-color: rgb(55, 51, 79);
-    opacity: 0.6;
-    transition: all .2s ease-in-out;
+  @extend .is-size-2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: lightgray;
+  width: fill;
+  height: 150px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgb(55, 51, 79);
+  opacity: 0.6;
+  transition: all 0.2s ease-in-out;
 }
 
 .lobby-create:hover {
-    cursor: pointer;
-    opacity: 1;
-    transition: all .2s ease-in-out;
-    transform: scale(1.1);
+  cursor: pointer;
+  opacity: 1;
+  transition: all 0.2s ease-in-out;
+  transform: scale(1.1);
 }

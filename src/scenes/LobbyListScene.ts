@@ -57,7 +57,15 @@ export default class LobbyListScene extends BaseScene {
     this.joinLobbyButton.node.textContent = "Confirm";
     // TODO - add on click listener
 
+    this.handleInput();
     if (this.socket) this.handleNetwork();
+  }
+
+  updateLobbyDetails(details: Lobby[]) {
+    for (let i = 0; i < details.length; i++) {
+      if (i >= MAX_LOBBIES) continue;
+      // this.lobbies[i].text.text = `${details[i].hostname}'s lobby\n${details[i].players.length}/8`;
+    }
   }
 
   handleNetwork() {
@@ -67,10 +75,11 @@ export default class LobbyListScene extends BaseScene {
     // });
   }
 
-  updateLobbyDetails(details: Lobby[]) {
-    for (let i = 0; i < details.length; i++) {
-      if (i >= MAX_LOBBIES) continue;
-      // this.lobbies[i].text.text = `${details[i].hostname}'s lobby\n${details[i].players.length}/8`;
-    }
+  handleInput() {
+    this.input.keyboard.on("keydown", (event: any) => {
+      if (event.code === "ArrowLeft") {
+        this.scene.start("MainScene");
+      }
+    });
   }
 }
