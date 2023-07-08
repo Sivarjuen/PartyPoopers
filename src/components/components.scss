@@ -2,6 +2,9 @@
 @import "../../node_modules/bulma/bulma.sass";
 @import "../../public/assets/style.scss";
 
+$color-primary: #00d1b2;
+$color-secondary: #ffa500;
+
 .button {
   font-size: 34px;
   font-weight: 500;
@@ -14,6 +17,48 @@
 
 .connect-button {
   @extend .button, .is-primary, .is-outlined;
+}
+
+.join-button {
+  @extend .button, .is-primary;
+  font-size: 38px;
+  width: 150px;
+  height: 70px;
+}
+
+.join-button[disabled] {
+  border-color: #cccccc;
+  background-color: #cccccc;
+  color: #666666;
+}
+
+.host-button {
+  @extend .button;
+  font-size: 38px;
+  width: 150px;
+  height: 70px;
+  background-color: $color-secondary;
+  color: white;
+  border: 0px;
+}
+
+.host-button:hover {
+  color: white;
+  background-color: #ffa600e4;
+}
+
+.host-button:focus {
+  color: white;
+  background-color: #ffa600e4;
+}
+
+.host-button:active {
+  color: white;
+  background-color: #ffa600bb;
+}
+
+.join-or-host-container {
+  justify-content: center;
 }
 
 .lobby-button {
@@ -34,17 +79,11 @@
   color: white;
 }
 
-.lobby-title {
-  @extend .is-family-primary;
-  font-size: 64px;
-  color: white;
-}
-
 .name {
   @extend .has-text-weight-semibold;
   font-size: 26px;
   white-space: nowrap;
-  color: orange;
+  color: $color-primary;
 }
 
 .lobby-list-container {
@@ -68,13 +107,7 @@
   margin-bottom: 30px;
   border: none;
   border-radius: 5px;
-  background-color: rgb(55, 51, 79);
-  background-image: linear-gradient(to bottom right, rgb(55, 51, 79), rgb(43, 41, 59));
-  background: rgb(2, 0, 36);
-  background: -moz-linear-gradient(333deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 47%, rgba(0, 212, 255, 1) 100%);
-  background: -webkit-linear-gradient(333deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 47%, rgba(0, 212, 255, 1) 100%);
-  background: linear-gradient(333deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 47%, rgba(0, 212, 255, 1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#020024",endColorstr="#00d4ff",GradientType=1);
+  background: orange;
   opacity: 0.6;
   transition: all 0.2s ease-in-out;
 }

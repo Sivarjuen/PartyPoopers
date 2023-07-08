@@ -4,3 +4,7 @@ import "../components.scss";
 export const ConnectButton = (<button class="connect-button">Connect</button>) as HTMLElement;
 
 export const LobbyButton = (<button class="lobby-button"></button>) as HTMLElement;
+
+export const JoinButton = (<button class="join-button">Join</button>) as HTMLElement;
+
+export const HostButton = (<button class=" host-button">Host</button>) as HTMLElement;

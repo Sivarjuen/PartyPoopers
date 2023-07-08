@@ -1,6 +1,6 @@
 {
     "name": "party_poopers",
-    "version": "0.1.10",
+    "version": "0.1.11",
     "description": "Party Poopers Game",
     "main": "src/game.ts",
     "scripts": {

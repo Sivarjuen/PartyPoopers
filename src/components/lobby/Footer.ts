@@ -15,12 +15,12 @@ export class Footer extends Phaser.GameObjects.Container {
 
     this.versionText = new Text(scene, 0, -32, version, font, 20);
     this.versionText.setOrigin(0, 0.5);
-    this.versionText.setColor("#565463");
+    this.versionText.setColor("#76757a");
     this.add(this.versionText);
 
     this.authorText = new Text(scene, 0, 0, author, font, 20);
     this.authorText.setOrigin(0, 0.5);
-    this.authorText.setColor("#565463");
+    this.authorText.setColor("#76757a");
     this.add(this.authorText);
   }
 }

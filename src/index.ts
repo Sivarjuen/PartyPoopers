@@ -18,9 +18,9 @@ const config: Phaser.Types.Core.GameConfig = {
   // @ts-ignore
   // prettier-ignore
   scene: [
-    
-    new LobbyListScene(), 
     new MainScene(),
+    new LobbyListScene(), 
+    
   ],
 };
 
