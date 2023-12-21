@@ -8,3 +8,7 @@ export const LobbyButton = (<button class="lobby-button"></button>) as HTMLEleme
 export const JoinButton = (<button class="join-button">Join</button>) as HTMLElement;
 
 export const HostButton = (<button class=" host-button">Host</button>) as HTMLElement;
+
+export const ReadyButton = (<button class=" ready-button">Ready</button>) as HTMLElement;
+
+export const UnreadyButton = (<button class=" unready-button">Unready</button>) as HTMLElement;

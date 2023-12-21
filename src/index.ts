@@ -1,6 +1,6 @@
 import "phaser";
 import MainScene from "./scenes/MainScene";
-import LobbyListScene from "./scenes/LobbyListScene";
+import LobbyScene from "./scenes/LobbyScene";
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -18,8 +18,9 @@ const config: Phaser.Types.Core.GameConfig = {
   // @ts-ignore
   // prettier-ignore
   scene: [
+    new LobbyScene(), 
     new MainScene(),
-    new LobbyListScene(), 
+    
     
   ],
 };

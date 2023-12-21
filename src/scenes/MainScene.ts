@@ -93,12 +93,12 @@ export default class MainScene extends BaseScene {
     this.connectedAsText.setVisible(false);
 
     // Join or host
-    this.joinButton = this.add.dom(1100, 750, JoinButton);
+    this.joinButton = this.add.dom(1110, 750, JoinButton);
     this.hostButton = this.add.dom(this.getW() / 2, 900, HostButton);
 
     // Code Input
     this.codeInput = this.add.existing(
-      new TextInput(this, 875, 750, {
+      new TextInput(this, 880, 750, {
         width: 300,
         height: 80,
         fontFamily: "beaufort",
@@ -155,7 +155,7 @@ export default class MainScene extends BaseScene {
   handleInput() {
     this.input.keyboard.on("keydown", (event: any) => {
       if (event.code === "ArrowRight") {
-        this.scene.start("LobbyListScene");
+        this.scene.start("LobbyScene");
       }
       if (event.code === "ArrowDown") {
         console.log("TOGGLING!");
