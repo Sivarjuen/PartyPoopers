@@ -83,6 +83,11 @@ $color-secondary: #ffa500;
   color: white;
 }
 
+.error-text {
+  @extend .is-size-4;
+  color: red;
+}
+
 .room-code-text {
   @extend .is-size-1;
   color: white;

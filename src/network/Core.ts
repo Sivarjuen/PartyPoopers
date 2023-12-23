@@ -71,12 +71,3 @@ export default function connectToServer(status: NetStatus): Socket {
 
   return socket;
 }
-
-export function join(socket: Socket, requestedUsername: string, callback: () => void) {
-  socket.emit("join", { username: requestedUsername });
-
-  socket.on("username", ({ username }) => {
-    socket.username = username;
-    callback();
-  });
-}

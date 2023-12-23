@@ -2,9 +2,9 @@ import { BaseScene } from "./BaseScene";
 import { NetStatus } from "../components/lobby/NetStatus";
 import { TextInput } from "../components/lobby/TextInput";
 import { ConnectButton, JoinButton, HostButton } from "../components/common/Button";
-import connectToServer, { join } from "../network/Core";
+import connectToServer from "../network/Core";
 import { Footer } from "../components/lobby/Footer";
-import { ConnectedAsText } from "../components/lobby/Text";
+import { ConnectedAsText, ErrorText } from "../components/lobby/Text";
 
 export default class MainScene extends BaseScene {
   // Pre-connect elements
@@ -18,6 +18,7 @@ export default class MainScene extends BaseScene {
   private hostButton: Phaser.GameObjects.DOMElement;
 
   private socket: any;
+  private errorText: Phaser.GameObjects.DOMElement;
 
   private usernameLoaded: Boolean = false;
   private isConnected: Boolean = false;
@@ -77,12 +78,7 @@ export default class MainScene extends BaseScene {
     // Connect Button
     this.connectButton = this.add.dom(this.getW() / 2, 750, ConnectButton);
     this.connectButton.addListener("click");
-    this.connectButton.on("click", () => {
-      join(this.socket, this.name.text, (): void => {
-        this.connectedView();
-      });
-    });
-    this.connectButton.setVisible(false);
+    this.connectButton.on("click", () => this.join());
 
     this.name.on("textchange", (s: string) => {
       this.connectButton.setVisible(this.isNameValid());
@@ -92,9 +88,18 @@ export default class MainScene extends BaseScene {
     this.connectedAsText = this.add.dom(this.getW() / 2, 550, ConnectedAsText(""));
     this.connectedAsText.setVisible(false);
 
+    // Error
+    this.errorText = this.add.dom(this.getW() / 2, this.getH() - 64, ErrorText(""));
+    this.errorText.setVisible(false);
+
     // Join or host
     this.joinButton = this.add.dom(1110, 750, JoinButton);
+    this.joinButton.addListener("click");
+    this.joinButton.on("click", () => this.joinLobby());
+
     this.hostButton = this.add.dom(this.getW() / 2, 900, HostButton);
+    this.hostButton.addListener("click");
+    this.hostButton.on("click", () => this.hostLobby());
 
     // Code Input
     this.codeInput = this.add.existing(
@@ -173,6 +178,7 @@ export default class MainScene extends BaseScene {
     this.joinButton.setVisible(true);
     this.hostButton.setVisible(true);
     this.codeInput.setVisible(true);
+    this.errorText.setVisible(false);
   }
 
   disconnectedView() {
@@ -183,6 +189,7 @@ export default class MainScene extends BaseScene {
     this.joinButton.setVisible(false);
     this.hostButton.setVisible(false);
     this.codeInput.setVisible(false);
+    this.errorText.setVisible(false);
   }
 
   isNameValid() {
@@ -191,5 +198,37 @@ export default class MainScene extends BaseScene {
 
   isCodeValid() {
     return this.codeInput.text.trim().length == 4;
+  }
+
+  join() {
+    this.socket.emit("join", { username: this.name.text });
+  
+    this.socket.on("username", (username: string) => {
+      if (username === null) {
+        this.errorText.setElement(ErrorText("Username is taken"));
+        this.errorText.setVisible(true);
+      } else {
+        this.socket.username = username;
+        this.connectedView();
+      }
+    });
+  }
+
+  joinLobby() {
+    this.socket.emit("joinLobby", this.codeInput.text);
+    
+    this.socket.on("lobbyJoinFail", (error: string) => {
+      this.errorText.setElement(ErrorText(error));
+      this.errorText.setVisible(true);
+    })
+  }
+
+  hostLobby() {
+    this.socket.emit("hostLobby");
+
+    this.socket.on("acknowledgeHost", (lobby: any) => {
+      console.log(JSON.stringify(lobby));
+      this.scene.start("LobbyScene");
+    })
   }
 }

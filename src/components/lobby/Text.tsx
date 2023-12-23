@@ -16,3 +16,11 @@ export const RoomCodeText = (code: string) => {
     </div>
   ) as HTMLElement;
 };
+
+export const ErrorText = (text: string) => {
+  return (
+    <div class="error-text">
+      {text}
+    </div>
+  ) as HTMLElement;
+};
