@@ -226,9 +226,8 @@ export default class MainScene extends BaseScene {
   hostLobby() {
     this.socket.emit("hostLobby");
 
-    this.socket.on("acknowledgeHost", (lobby: any) => {
-      console.log(JSON.stringify(lobby));
-      this.scene.start("LobbyScene");
+    this.socket.on("acknowledgeHost", (lobbyCode: string) => {
+      this.scene.start("LobbyScene", { lobbyCode });
     })
   }
 }

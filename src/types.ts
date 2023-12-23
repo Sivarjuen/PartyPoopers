@@ -1,4 +1,5 @@
 import { Socket as SocketIO } from "socket.io-client";
+
 export declare type Socket = SocketIO & {
   sessionID?: string;
   userID?: string;
@@ -10,13 +11,13 @@ export type Vector2D = {
   y: number;
 };
 
+export type Lobby = {
+  hostId: string;
+  hostName: string;
+  players: Record<string, LobbyPlayer>;
+};
+
 export type LobbyPlayer = {
   name: string;
   ready: boolean;
-};
-
-export type Lobby = {
-  id: string;
-  hostname: string;
-  players: Array<LobbyPlayer>;
 };

@@ -1,18 +1,24 @@
 import "phaser";
 import { BaseScene } from "./BaseScene";
 import { LobbyList } from "../components/lobby/LobbyList";
-import { LobbyOptions } from "../components/lobby/LobbyOptions";
 import { RoomCodeText } from "../components/lobby/Text";
 import { ReadyButton, UnreadyButton } from "../components/common/Button";
+import { Lobby, LobbyPlayer } from "src/types";
 
 export default class LobbyScene extends BaseScene {
   private socket: any;
   private readyButton: Phaser.GameObjects.DOMElement;
   private unreadyButton: Phaser.GameObjects.DOMElement;
   private isReady: boolean;
+  private lobbyCode: string;
+  private lobbyEntries: Phaser.GameObjects.DOMElement; 
 
   constructor() {
     super("LobbyScene");
+  }
+
+  init(data: any): void {
+    this.lobbyCode = data.lobbyCode;
   }
 
   create(): void {
@@ -20,12 +26,11 @@ export default class LobbyScene extends BaseScene {
 
     this.socket = this.registry.get("socket");
 
-    const names: string[] = ["abc", "def", "ghi"];
+    const names: string[] = ["abc", "def", "ghi", "1", "2", "3", "4"];
 
-    this.add.dom(this.getW() / 2, 180, RoomCodeText("1234"));
+    this.add.dom(this.getW() / 2, 180, RoomCodeText(this.lobbyCode));
 
-    const a = this.add.dom(this.getW() / 2, this.getH() / 2, LobbyList(names, 2, [0, 4]));
-    // const b = this.add.dom(this.getW() / 2 + 380, this.getH() / 2, LobbyOptions());
+    this.lobbyEntries = this.add.dom(this.getW() / 2, this.getH() / 2, LobbyList(names, 2, [0, 4]));
 
     this.readyButton = this.add.dom(this.getW() / 2, 900, ReadyButton);
     this.unreadyButton = this.add.dom(this.getW() / 2, 900, UnreadyButton);
@@ -44,10 +49,16 @@ export default class LobbyScene extends BaseScene {
   }
 
   handleNetwork() {
-    this.socket.emit("getLobbyDetails");
-    // this.socket.on("lobbyDetails", ({ lobbies }) => {
-    //   this.updateLobbyDetails(lobbies);
-    // });
+    this.socket.emit("getLobbyDetails", this.lobbyCode);
+
+    this.socket.on("lobbyDetails", (lobby: Lobby | undefined) => {
+      if (lobby !== undefined) {
+        this.updateLobbyDetails(lobby);
+      } else {
+        console.error(`Failed to get lobby details for code: '${this.lobbyCode}'`);
+      }
+      
+    });
   }
 
   handleInput() {
@@ -70,5 +81,21 @@ export default class LobbyScene extends BaseScene {
     this.isReady = ready;
     this.unreadyButton.setVisible(!ready);
     this.readyButton.setVisible(ready);
+  }
+
+  updateLobbyDetails(lobbyDetails: Lobby) {
+    const players = Object.keys(lobbyDetails.players);
+    const playerNames: string[] = [];
+    let highlightIndex: number = 0; 
+    const readyIndexes: number[] = [];
+
+    players.forEach((playerId, index) => {
+      const player: LobbyPlayer = lobbyDetails.players[playerId];
+      playerNames.push(player.name);
+      if (player.name === this.socket.username) highlightIndex = index;
+      if (player.ready) readyIndexes.push(index);
+    })
+
+    this.lobbyEntries.setElement(LobbyList(playerNames, highlightIndex, readyIndexes));
   }
 }
