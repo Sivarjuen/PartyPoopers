@@ -221,6 +221,10 @@ export default class MainScene extends BaseScene {
       this.errorText.setElement(ErrorText(error));
       this.errorText.setVisible(true);
     })
+
+    this.socket.on("acknowledgeJoin", (lobbyCode: string) => {
+      this.scene.start("LobbyScene", { lobbyCode });
+    })
   }
 
   hostLobby() {
