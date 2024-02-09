@@ -6,166 +6,225 @@ $color-primary: #00d1b2;
 $color-secondary: #ffa500;
 
 .button {
-  font-size: 34px;
-  font-weight: 500;
-  line-height: 0px;
-  width: 300px;
-  border-radius: 10px;
-  border-width: 4px;
-  padding: 0px;
+    font-size: 34px;
+    font-weight: 500;
+    line-height: 0px;
+    width: 300px;
+    border-radius: 10px;
+    border-width: 4px;
+    padding: 0px;
 }
 
 .connect-button {
-  @extend .button, .is-primary, .is-outlined;
+    @extend .button, .is-primary, .is-outlined;
 }
 
 .join-button {
-  @extend .button, .is-primary;
-  font-size: 38px;
-  width: 150px;
-  height: 70px;
+    @extend .button, .is-primary;
+    font-size: 38px;
+    width: 150px;
+    height: 70px;
 }
 
 .join-button[disabled] {
-  border-color: #cccccc;
-  background-color: #cccccc;
-  color: #666666;
+    border-color: #cccccc;
+    background-color: #cccccc;
+    color: #666666;
 }
 
 .host-button {
-  @extend .button;
-  font-size: 38px;
-  width: 150px;
-  height: 70px;
-  background-color: $color-secondary;
-  color: white;
-  border: 0px;
-  transition: all 0.2s ease-in-out;
+    @extend .button;
+    font-size: 38px;
+    width: 150px;
+    height: 70px;
+    background-color: $color-secondary;
+    color: white;
+    border: 0px;
+    transition: all 0.2s ease-in-out;
 }
 
 .host-button:hover {
-  color: white;
-  background-color: #ffa600e4;
-  transition: all 0.2s ease-in-out;
-  transform: scale(1.5);
+    color: white;
+    background-color: #ffa600e4;
+    transition: all 0.2s ease-in-out;
+    transform: scale(1.5);
 }
 
 .host-button:focus {
-  color: white;
-  background-color: #ffa600e4;
+    color: white;
+    background-color: #ffa600e4;
 }
 
 .host-button:active {
-  color: white;
-  background-color: #ffa600bb;
+    color: white;
+    background-color: #ffa600bb;
 }
 
 .ready-button {
-  @extend .button, .is-success;
-  font-size: 38px;
-  width: 300px;
-  height: 70px;
+    @extend .button, .is-success;
+    font-size: 38px;
+    width: 300px;
+    height: 70px;
 }
 
 .unready-button {
-  @extend .button, .is-danger;
-  font-size: 38px;
-  width: 300px;
-  height: 70px;
+    @extend .button, .is-danger;
+    font-size: 38px;
+    width: 300px;
+    height: 70px;
 }
 
 .join-or-host-container {
-  justify-content: center;
+    justify-content: center;
 }
 
 .connected-as-text {
-  @extend .is-size-4;
-  color: white;
+    @extend .is-size-4;
+    color: white;
 }
 
 .error-text {
-  @extend .is-size-4;
-  color: red;
+    @extend .is-size-4;
+    color: red;
 }
 
 .room-code-text {
-  @extend .is-size-1;
-  color: white;
+    @extend .is-size-1;
+    color: white;
 }
 
 .room-code {
-  @extend .has-text-weight-semibold;
-  font-size: 3rem;
-  white-space: nowrap;
-  color: $color-secondary;
-  text-decoration: underline;
+    @extend .has-text-weight-semibold;
+    font-size: 3rem;
+    white-space: nowrap;
+    color: $color-secondary;
+    text-decoration: underline;
 }
 
 .name {
-  @extend .has-text-weight-semibold;
-  font-size: 26px;
-  white-space: nowrap;
-  color: $color-secondary;
-  text-decoration: underline;
+    @extend .has-text-weight-semibold;
+    font-size: 26px;
+    white-space: nowrap;
+    color: $color-secondary;
+    text-decoration: underline;
 }
 
 .lobby-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 380px;
-  height: 450px;
-  padding: 10px;
-  margin-left: -15px;
-  background-color: #0f0e0e;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 380px;
+    height: 450px;
+    padding: 10px;
+    margin-left: -15px;
+    background-color: #0f0e0e;
 }
 
 .lobby-outer-container {
-  display: flex;
-  justify-content: center;
-  min-width: 1000px;
+    display: flex;
+    justify-content: center;
+    min-width: 1000px;
 }
 
 .lobby-options-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 10px;
-  width: 250px;
-  height: 450px;
-  padding: 0px 10px;
-  background-color: #0f0e0e;
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    width: 250px;
+    height: 450px;
+    padding: 20px 20px;
+    background-color: #0f0e0e;
 }
 
 .lobby-list-item {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  width: fill;
-  height: 100px;
-  margin: 5px;
-  background-color: rgb(42, 41, 47);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    width: fill;
+    height: 100px;
+    margin: 5px;
+    background-color: rgb(42, 41, 47);
+    border-radius: 5px;
 }
 
 .lobby-item-highlight {
-  border: 3px solid $color-secondary;
-  border-radius: 5px;
+    border: 3px solid $color-secondary;
+    border-radius: 5px;
 }
 
 .lobby-ready {
-  background-color: $green;
+    background-color: $green;
 }
 
 .lobby-empty {
-  width: fill;
-  height: 100px;
-  margin: 5px;
-  border: none;
-  background-color: rgba(29, 29, 33, 0.529);
-  opacity: 0.6;
-  // transition: all 0.2s ease-in-out;
+    width: fill;
+    height: 100px;
+    margin: 5px;
+    border: none;
+    background-color: rgba(29, 29, 33, 0.529);
+    opacity: 0.6;
+    // transition: all 0.2s ease-in-out;
+}
+
+.game-label {
+    color: rgb(151, 151, 151);
+    margin-bottom: 5px;
+}
+
+.dropdown {
+    color: white;
+}
+
+.dropdown button {
+    display: block;
+    font-size: 20px;
+    color: white;
+    background-color: rgb(42, 41, 47);
+    border: none;
+}
+
+.button-container {
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+}
+
+.dropdown button.expanded {
+    font-size: 20px;
+    color: white;
+    background-color: rgb(42, 41, 47);
+    border: none;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.dropdown button:hover {
+    color: white;
+    border: none;
+}
+
+.dropdown button:focus {
+    color: white;
+    border: none;
+}
+
+.dropdown-menu {
+    width: 100%;
+}
+
+.dropdown-content {
+    background-color: rgb(42, 41, 47);
+    border-radius: 0px 0px 5px 5px;
+}
+
+.dropdown-item {
+    font-size: 20px;
+    color: white;
+    background-color: rgb(42, 41, 47);
 }
 
 // .lobby-empty:hover {
